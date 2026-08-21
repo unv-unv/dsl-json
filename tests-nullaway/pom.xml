@@ -70,7 +70,7 @@
 					<annotationProcessorPaths>
 						<path>
 							<groupId>com.dslplatform</groupId>
-							<artifactId>dsl-json</artifactId>
+							<artifactId>dsl-json-processor</artifactId>
 							<version>${project.version}</version>
 						</path>
 						<path>

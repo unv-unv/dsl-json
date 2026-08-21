@@ -3,7 +3,6 @@ package com.dslplatform.json.runtime;
 import org.jspecify.annotations.Nullable;
 
 import com.dslplatform.json.*;
-import com.dslplatform.json.processor.Analysis;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -359,7 +358,7 @@ public abstract class ObjectAnalyzer {
 			return false;
 		}
 		final boolean isBoolean = boolean.class.equals(mget.getReturnType());
-		final String name = Analysis.beanOrActualName(mget.getName(), isBoolean);
+		final String name = BeanNaming.beanOrActualName(mget.getName(), isBoolean);
 		if (!canRead(mget.getModifiers()) || !canWrite(mset.getModifiers())) return false;
 		if (foundRead.containsKey(name) && foundWrite.containsKey(name)) return false;
 		final Type type = mget.getGenericReturnType();

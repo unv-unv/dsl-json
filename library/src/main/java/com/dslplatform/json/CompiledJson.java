@@ -1,6 +1,6 @@
 package com.dslplatform.json;
 
-import com.dslplatform.json.processor.NamingStrategy;
+import com.dslplatform.json.internal.DefaultNamingStrategy;
 
 import java.lang.annotation.*;
 
@@ -86,7 +86,7 @@ public @interface CompiledJson {
 		EXPLICIT
 	}
 
-	Class namingStrategy() default NamingStrategy.class;
+	Class namingStrategy() default DefaultNamingStrategy.class;
 
 	/**
 	 * Deprecated: use namingStrategy = MinifiedNames.class instead

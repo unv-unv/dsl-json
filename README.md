@@ -158,7 +158,7 @@ For existing classes which can't be modified with `@JsonAttribute` alternative e
 
 During translation from Java objects into DSL schema, existing type system nullability rules are followed.
 With the help of non-null annotations, hints can be introduced to work around some Java nullability type system limitations.
-List of supported non-null annotations can be found in [processor source code](java/src/main/java/com/dslplatform/json/processor/CompiledJsonAnnotationProcessor.java#L68)
+List of supported non-null annotations can be found in [processor source code](processor/src/main/java/com/dslplatform/json/processor/CompiledJsonAnnotationProcessor.java#L68)
 
 Nullable annotations can be disabled via configuration parameter `dsljson.nullable=false`. This might be useful if you want to handle null checks after deserialization.
 

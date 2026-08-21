@@ -3,7 +3,6 @@ package com.dslplatform.json.runtime;
 import org.jspecify.annotations.Nullable;
 
 import com.dslplatform.json.*;
-import com.dslplatform.json.processor.Analysis;
 
 import java.lang.reflect.*;
 import java.util.Collection;
@@ -136,7 +135,7 @@ public abstract class MixinAnalyzer {
 		if (mget.getParameterTypes().length != 0) return;
 		if (!canRead(mget.getModifiers())) return;
 		final boolean isBoolean = boolean.class.equals(mget.getReturnType());
-		final String name = Analysis.beanOrActualName(mget.getName(), isBoolean);
+		final String name = BeanNaming.beanOrActualName(mget.getName(), isBoolean);
 		if (foundWrite.containsKey(name)) return;
 		final Type type = mget.getGenericReturnType();
 		final Type concreteType = genericMappings.makeConcrete(type, raw);

@@ -3,7 +3,6 @@ package com.dslplatform.json.runtime;
 import org.jspecify.annotations.Nullable;
 
 import com.dslplatform.json.*;
-import com.dslplatform.json.processor.Analysis;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -176,7 +175,7 @@ public abstract class ImmutableAnalyzer {
 		for (final Method mget : raw.getMethods()) {
 			if (mget.getParameterTypes().length != 0) continue;
 			final boolean isBoolean = boolean.class.equals(mget.getReturnType());
-			final String name = Analysis.beanOrActualName(mget.getName(), isBoolean);
+			final String name = BeanNaming.beanOrActualName(mget.getName(), isBoolean);
 			if (isPublicNonStatic(mget.getModifiers()) && !name.contains("$") && !objectMethods.contains(name)) {
 				matchingMethods.put(name, mget);
 				if (isBoolean && !name.equals(mget.getName())) {

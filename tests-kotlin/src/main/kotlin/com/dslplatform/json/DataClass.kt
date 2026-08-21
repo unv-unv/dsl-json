@@ -16,7 +16,7 @@ data class CustomObject(val text: String) : JsonObject {
         writer.writeAscii("}")
     }
     companion object {
-        val JSON_READER = object: JsonReader.ReadJsonObject<CustomObject?> {
+        val JSON_READER = object: JsonReader.ReadJsonObject<CustomObject> {
             override fun deserialize(reader: JsonReader<Any>): CustomObject? {
                 reader.fillName()
                 reader.nextToken

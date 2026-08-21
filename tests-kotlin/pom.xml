@@ -14,7 +14,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<kotlin.version>1.8.21</kotlin.version>
+		<kotlin.version>2.4.10</kotlin.version>
 		<kotlin.code.style>official</kotlin.code.style>
 		<maven.deploy.skip>true</maven.deploy.skip>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -25,6 +25,12 @@
 			<groupId>com.dslplatform</groupId>
 			<artifactId>dsl-json</artifactId>
 			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.dslplatform</groupId>
+			<artifactId>dsl-json-processor</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -104,7 +110,7 @@
 							<annotationProcessorPaths>
 								<annotationProcessorPath>
 									<groupId>com.dslplatform</groupId>
-									<artifactId>dsl-json</artifactId>
+									<artifactId>dsl-json-processor</artifactId>
 									<version>${project.version}</version>
 								</annotationProcessorPath>
 							</annotationProcessorPaths>
@@ -131,7 +137,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
+				<version>3.14.1</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
@@ -140,7 +146,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.20</version>
+				<version>3.5.4</version>
 				<configuration>
 					<testSourceDirectory>src/test/java</testSourceDirectory>
 					<testClassesDirectory>target/test-classes</testClassesDirectory>
