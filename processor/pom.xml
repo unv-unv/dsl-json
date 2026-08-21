@@ -9,7 +9,7 @@
 	<description>Compile time databinding for DSL Platform compatible Java JSON library (https://dsl-platform.com)</description>
 	<url>https://github.com/ngs-doo/dsl-json</url>
 	<packaging>jar</packaging>
-	<version>3.0.0</version>
+	<version>3.0.1</version>
 
 	<dependencies>
 
@@ -152,7 +152,6 @@
 								</goals>
 								<configuration>
 									<release>9</release>
-									<multiReleaseOutput>true</multiReleaseOutput>
 									<proc>none</proc>
 									<compileSourceRoots>
 										<compileSourceRoot>${project.basedir}/src/main/java9</compileSourceRoot>
@@ -160,18 +159,6 @@
 								</configuration>
 							</execution>
 						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-jar-plugin</artifactId>
-						<version>3.4.1</version>
-						<configuration>
-							<archive>
-								<manifestEntries>
-									<Multi-Release>true</Multi-Release>
-								</manifestEntries>
-							</archive>
-						</configuration>
 					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>

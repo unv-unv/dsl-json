@@ -33,7 +33,7 @@ class ConverterTemplate {
 
 	private static final String NULLABLE = "@org.jspecify.annotations.Nullable ";
 
-	private static String nullable(final String type) {
+	static String nullable(final String type) {
 		int array = type.indexOf('[');
 		if (array >= 0) {
 			return type.substring(0, array) + " " + NULLABLE + type.substring(array);
