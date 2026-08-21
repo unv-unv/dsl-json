@@ -3,7 +3,7 @@ package com.dslplatform.json.runtime;
 import com.dslplatform.json.DslJson;
 import com.dslplatform.json.JsonReader;
 import com.dslplatform.json.JsonWriter;
-import com.dslplatform.json.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.lang.reflect.*;
 import java.util.Optional;
@@ -11,9 +11,8 @@ import java.util.Optional;
 public abstract class OptionalAnalyzer {
 
 	public static final DslJson.ConverterFactory<OptionalDecoder> READER = new DslJson.ConverterFactory<OptionalDecoder>() {
-		@Nullable
 		@Override
-		public OptionalDecoder tryCreate(Type manifest, DslJson dslJson) {
+		public @Nullable OptionalDecoder tryCreate(Type manifest, DslJson dslJson) {
 			if (manifest instanceof ParameterizedType) {
 				final ParameterizedType pt = (ParameterizedType) manifest;
 				if (pt.getActualTypeArguments().length == 1) {
@@ -28,9 +27,8 @@ public abstract class OptionalAnalyzer {
 	};
 
 	public static final DslJson.ConverterFactory<OptionalEncoder> WRITER = new DslJson.ConverterFactory<OptionalEncoder>() {
-		@Nullable
 		@Override
-		public OptionalEncoder tryCreate(Type manifest, DslJson dslJson) {
+		public @Nullable OptionalEncoder tryCreate(Type manifest, DslJson dslJson) {
 			if (manifest instanceof ParameterizedType) {
 				final ParameterizedType pt = (ParameterizedType) manifest;
 				if (pt.getActualTypeArguments().length == 1) {
@@ -44,8 +42,7 @@ public abstract class OptionalAnalyzer {
 		}
 	};
 
-	@Nullable
-	private static OptionalDecoder analyzeDecoding(final Type manifest, final Type content, final Class<?> raw, final DslJson json) {
+	private static @Nullable OptionalDecoder analyzeDecoding(final Type manifest, final Type content, final Class<?> raw, final DslJson json) {
 		if (raw != Optional.class) {
 			return null;
 		} else if (content == Optional.class) {
@@ -63,8 +60,7 @@ public abstract class OptionalAnalyzer {
 		return decoder;
 	}
 
-	@Nullable
-	private static OptionalEncoder analyzeEncoding(final Type manifest, final Type content, final Class<?> raw, final DslJson json) {
+	private static @Nullable OptionalEncoder analyzeEncoding(final Type manifest, final Type content, final Class<?> raw, final DslJson json) {
 		if (raw != Optional.class) {
 			return null;
 		} else if (content == Optional.class) {

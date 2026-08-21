@@ -1,5 +1,7 @@
 package com.dslplatform.json;
 
+import org.jspecify.annotations.Nullable;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,9 +9,8 @@ import java.util.Collection;
 public abstract class BinaryConverter {
 
 	public static final JsonReader.ReadObject<byte[]> READER = new JsonReader.ReadObject<byte[]>() {
-		@Nullable
 		@Override
-		public byte[] read(JsonReader reader) throws IOException {
+		public byte @Nullable [] read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : deserialize(reader);
 		}
 	};
@@ -23,7 +24,7 @@ public abstract class BinaryConverter {
 		json.registerWriter(byte[].class, (writer, value) -> serialize(value, writer));
 	}
 
-	public static void serialize(@Nullable final byte[] value, final JsonWriter sw) {
+	public static void serialize(final byte @Nullable [] value, final JsonWriter sw) {
 		if (value == null) {
 			sw.writeNull();
 		} else if (value.length == 0) {

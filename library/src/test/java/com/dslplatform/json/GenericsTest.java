@@ -1,5 +1,7 @@
 package com.dslplatform.json;
 
+import org.jspecify.annotations.Nullable;
+
 import com.dslplatform.json.runtime.Generics;
 import com.dslplatform.json.runtime.TypeDefinition;
 import org.junit.Assert;
@@ -98,9 +100,8 @@ public class GenericsTest {
 	}
 
 	static class ArrayReader implements DslJson.ConverterFactory<JsonReader.ReadObject> {
-		@Nullable
 		@Override
-		public JsonReader.ReadObject tryCreate(Type manifest, DslJson dslJson) {
+		public JsonReader.@Nullable ReadObject tryCreate(Type manifest, DslJson dslJson) {
 			if (!int[][].class.equals(manifest)) return null;
 			return new JsonReader.ReadObject<int[][]>() {
 				@Override
@@ -131,13 +132,12 @@ public class GenericsTest {
 	}
 
 	static class ArrayWriter implements DslJson.ConverterFactory<JsonWriter.WriteObject> {
-		@Nullable
 		@Override
-		public JsonWriter.WriteObject tryCreate(Type manifest, DslJson dslJson) {
+		public JsonWriter.@Nullable WriteObject tryCreate(Type manifest, DslJson dslJson) {
 			if (!int[][].class.equals(manifest)) return null;
 			return new JsonWriter.WriteObject<int[][]>() {
 				@Override
-				public void write(JsonWriter writer, @Nullable int[][] value) {
+				public void write(JsonWriter writer, int @Nullable [][] value) {
 					if (value == null) {
 						writer.writeNull();
 					} else {

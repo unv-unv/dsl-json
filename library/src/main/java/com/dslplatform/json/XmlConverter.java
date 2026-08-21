@@ -1,5 +1,7 @@
 package com.dslplatform.json;
 
+import org.jspecify.annotations.Nullable;
+
 import org.w3c.dom.*;
 import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSOutput;
@@ -18,9 +20,8 @@ import java.util.*;
 public abstract class XmlConverter {
 
 	private static final JsonReader.ReadObject<Element> READER = new JsonReader.ReadObject<Element>() {
-		@Nullable
 		@Override
-		public Element read(JsonReader reader) throws IOException {
+		public @Nullable Element read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : deserialize(reader);
 		}
 	};
@@ -41,7 +42,7 @@ public abstract class XmlConverter {
 		}
 	}
 
-	public static void serializeNullable(@Nullable final Element value, final JsonWriter sw) {
+	public static void serializeNullable(final @Nullable Element value, final JsonWriter sw) {
 		if (value == null)
 			sw.writeNull();
 		else
@@ -105,7 +106,7 @@ public abstract class XmlConverter {
 	private static void buildXmlFromHashMap(
 			final Document doc,
 			final Element subtreeRootElement,
-			@Nullable final Object elementContent) {
+			final @Nullable Object elementContent) {
 		if (elementContent instanceof HashMap) {
 			final HashMap<String, Object> elementContentMap = (HashMap<String, Object>) elementContent;
 			for (final Map.Entry<String, Object> childEntry : elementContentMap.entrySet()) {

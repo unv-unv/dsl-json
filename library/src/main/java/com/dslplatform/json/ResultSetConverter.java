@@ -1,5 +1,7 @@
 package com.dslplatform.json;
 
+import org.jspecify.annotations.Nullable;
+
 import java.math.BigDecimal;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -113,8 +115,7 @@ public class ResultSetConverter implements JsonWriter.WriteObject<ResultSet> {
 
 	private JsonWriter.WriteObject<BigDecimal> DecimalConverter;
 
-	@Nullable
-	public Writer createWriter(
+	public @Nullable Writer createWriter(
 			final ResultSetMetaData metaData,
 			final int index) throws SQLException {
 		switch (metaData.getColumnType(index)) {

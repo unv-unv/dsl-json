@@ -1,7 +1,7 @@
 package com.dslplatform.json.runtime;
 
 import com.dslplatform.json.DslJson;
-import com.dslplatform.json.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.lang.reflect.*;
 import java.util.Collection;
@@ -9,9 +9,8 @@ import java.util.Collection;
 public abstract class EnumAnalyzer {
 
 	public static final DslJson.ConverterFactory<EnumDescription> CONVERTER = new DslJson.ConverterFactory<EnumDescription>() {
-		@Nullable
 		@Override
-		public EnumDescription tryCreate(Type manifest, DslJson dslJson) {
+		public @Nullable EnumDescription tryCreate(Type manifest, DslJson dslJson) {
 			if (manifest instanceof Class<?> && ((Class<?>) manifest).isEnum()) {
 				return analyze(manifest, (Class<Enum>) manifest, dslJson);
 			}
@@ -26,8 +25,7 @@ public abstract class EnumAnalyzer {
 		}
 	};
 
-	@Nullable
-	private static EnumDescription analyze(final Type manifest, final Class<Enum> raw, final DslJson json) {
+	private static @Nullable EnumDescription analyze(final Type manifest, final Class<Enum> raw, final DslJson json) {
 		if (raw.isArray()
 				|| Collection.class.isAssignableFrom(raw)
 				|| (raw.getModifiers() & Modifier.ABSTRACT) != 0

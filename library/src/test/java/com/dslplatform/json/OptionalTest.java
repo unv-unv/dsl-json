@@ -1,5 +1,7 @@
 package com.dslplatform.json;
 
+import org.jspecify.annotations.Nullable;
+
 import com.dslplatform.json.runtime.Settings;
 import com.dslplatform.json.runtime.TypeDefinition;
 import org.junit.Assert;
@@ -113,9 +115,8 @@ public class OptionalTest {
 	public static final DslJson.ConverterFactory<JsonReader.ReadObject> CUSTOM_READER = new DslJson.ConverterFactory<JsonReader.ReadObject>() {
 		private final JsonReader.ReadObject FakeReader = reader -> { throw new RuntimeException("Fake reader"); };
 
-		@Nullable
 		@Override
-		public JsonReader.ReadObject tryCreate(Type manifest, DslJson dslJson) {
+		public JsonReader.@Nullable ReadObject tryCreate(Type manifest, DslJson dslJson) {
 			if (manifest instanceof ParameterizedType) {
 				final ParameterizedType pt = (ParameterizedType) manifest;
 				if (pt.getActualTypeArguments().length == 1 && Optional.class.equals(pt.getRawType())) {
@@ -131,9 +132,8 @@ public class OptionalTest {
 	public static final DslJson.ConverterFactory<JsonWriter.WriteObject> CUSTOM_WRITER = new DslJson.ConverterFactory<JsonWriter.WriteObject>() {
 		private final JsonWriter.WriteObject FakeWriter = (writer, value) -> { throw new RuntimeException("Fake writer"); };
 
-		@Nullable
 		@Override
-		public JsonWriter.WriteObject tryCreate(Type manifest, DslJson dslJson) {
+		public JsonWriter.@Nullable WriteObject tryCreate(Type manifest, DslJson dslJson) {
 			if (manifest instanceof ParameterizedType) {
 				final ParameterizedType pt = (ParameterizedType) manifest;
 				if (pt.getActualTypeArguments().length == 1 && Optional.class.equals(pt.getRawType())) {

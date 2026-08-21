@@ -1,5 +1,7 @@
 package com.dslplatform.json.runtime;
 
+import org.jspecify.annotations.Nullable;
+
 import com.dslplatform.json.*;
 import dsl_json.java.util.OptionalDslJsonConverter;
 
@@ -15,9 +17,8 @@ public abstract class Settings {
 				return ObjectConverter.deserializeObject(reader);
 			}
 		};
-		@Nullable
 		@Override
-		public JsonReader.ReadObject tryCreate(Type manifest, DslJson dslJson) {
+		public JsonReader.@Nullable ReadObject tryCreate(Type manifest, DslJson dslJson) {
 			return Object.class == manifest ? READER : null;
 		}
 	};
@@ -41,9 +42,8 @@ public abstract class Settings {
 				}
 			}
 		}
-		@Nullable
 		@Override
-		public JsonWriter.WriteObject tryCreate(Type manifest, final DslJson dslJson) {
+		public JsonWriter.@Nullable WriteObject tryCreate(Type manifest, final DslJson dslJson) {
 			return Object.class == manifest ? new ObjectWriter(dslJson) : null;
 		}
 	};
@@ -56,7 +56,7 @@ public abstract class Settings {
 		void accept(T t, @Nullable U u);
 	}
 
-	static boolean isKnownType(@Nullable final Type type) {
+	static boolean isKnownType(final @Nullable Type type) {
 		if (type == Object.class) return false;
 		if (type instanceof Class<?>) {
 			Class<?> manifest = (Class<?>)type;
@@ -70,7 +70,7 @@ public abstract class Settings {
 			final Function<T, R> read,
 			final String name,
 			final DslJson json,
-			@Nullable final Type type) {
+			final @Nullable Type type) {
 		return createEncoder(read, name, json, type, null);
 	}
 
@@ -78,8 +78,8 @@ public abstract class Settings {
 			final Function<T, R> read,
 			final String name,
 			final DslJson json,
-			@Nullable final Type type,
-			@Nullable final JsonWriter.WriteObject<R> customEncoder) {
+			final @Nullable Type type,
+			final JsonWriter.@Nullable WriteObject<R> customEncoder) {
 		if (read == null) throw new IllegalArgumentException("read can't be null");
 		if (name == null) throw new IllegalArgumentException("name can't be null");
 		if (json == null) throw new IllegalArgumentException("json can't be null");
@@ -98,7 +98,7 @@ public abstract class Settings {
 	public static <T, R> JsonWriter.WriteObject<T> createArrayEncoder(
 			final Function<T, R> read,
 			final DslJson json,
-			@Nullable final Type type) {
+			final @Nullable Type type) {
 		if (read == null) throw new IllegalArgumentException("read can't be null");
 		if (json == null) throw new IllegalArgumentException("json can't be null");
 		final JsonWriter.WriteObject<R> encoder = type != null ? json.tryFindWriter(type) : null;
@@ -130,7 +130,7 @@ public abstract class Settings {
 			final boolean isMandatory,
 			final int index,
 			final boolean nonNull,
-			@Nullable final Type type) {
+			final @Nullable Type type) {
 		if (write == null) throw new IllegalArgumentException("write can't be null");
 		if (name == null) throw new IllegalArgumentException("name can't be null");
 		if (json == null) throw new IllegalArgumentException("json can't be null");
@@ -158,7 +158,7 @@ public abstract class Settings {
 	public static <T, R> JsonReader.BindObject<T> createArrayDecoder(
 			final BiConsumer<T, R> write,
 			final DslJson json,
-			@Nullable final Type type) {
+			final @Nullable Type type) {
 		if (write == null) throw new IllegalArgumentException("write can't be null");
 		if (json == null) throw new IllegalArgumentException("json can't be null");
 		final JsonReader.ReadObject<R> decoder = type != null ? json.tryFindReader(type) : null;

@@ -1,5 +1,7 @@
 package com.dslplatform.json.runtime;
 
+import org.jspecify.annotations.Nullable;
+
 import com.dslplatform.json.*;
 
 import java.io.IOException;
@@ -20,7 +22,7 @@ public abstract class ArrayAnalyzer {
 		};
 		public static final JsonWriter.WriteObject<Object[]> JSON_WRITER = new JsonWriter.WriteObject<Object[]>() {
 			@Override
-			public void write(JsonWriter writer, @Nullable Object[] value) {
+			public void write(JsonWriter writer, Object @Nullable [] value) {
 				if (value == null) {
 					writer.writeNull();
 				} else if (value.length == 0) {
@@ -39,9 +41,8 @@ public abstract class ArrayAnalyzer {
 	}
 
 	public static final DslJson.ConverterFactory<ArrayDecoder> READER = new DslJson.ConverterFactory<ArrayDecoder>() {
-		@Nullable
 		@Override
-		public ArrayDecoder tryCreate(Type manifest, DslJson dslJson) {
+		public @Nullable ArrayDecoder tryCreate(Type manifest, DslJson dslJson) {
 			if (manifest instanceof Class<?>) {
 				final Class<?> array = (Class<?>) manifest;
 				if (array.isArray()) {
@@ -57,9 +58,8 @@ public abstract class ArrayAnalyzer {
 	};
 
 	public static final DslJson.ConverterFactory<ArrayEncoder> WRITER = new DslJson.ConverterFactory<ArrayEncoder>() {
-		@Nullable
 		@Override
-		public ArrayEncoder tryCreate(Type manifest, DslJson dslJson) {
+		public @Nullable ArrayEncoder tryCreate(Type manifest, DslJson dslJson) {
 			if (manifest instanceof Class<?>) {
 				final Class<?> array = (Class<?>) manifest;
 				if (array.isArray()) {
@@ -74,8 +74,7 @@ public abstract class ArrayAnalyzer {
 		}
 	};
 
-	@Nullable
-	private static Class<?> checkSignature(final Type element) {
+	private static @Nullable Class<?> checkSignature(final Type element) {
 		final Class<?> raw;
 		if (element instanceof Class<?>) {
 			raw = (Class<?>)element;
@@ -89,8 +88,7 @@ public abstract class ArrayAnalyzer {
 		return raw;
 	}
 
-	@Nullable
-	private static <T> ArrayDecoder<T> analyzeDecoder(final Type manifest, final Type element, final DslJson json) {
+	private static <T> @Nullable ArrayDecoder<T> analyzeDecoder(final Type manifest, final Type element, final DslJson json) {
 		final Class<?> raw = checkSignature(element);
 		if (raw == null) return null;
 		final JsonReader.ReadObject<?> reader = json.tryFindReader(element);
@@ -102,8 +100,7 @@ public abstract class ArrayAnalyzer {
 		return decoder;
 	}
 
-	@Nullable
-	private static <T> ArrayEncoder<T> analyzeEncoder(final Type manifest, final Type element, final DslJson json) {
+	private static <T> @Nullable ArrayEncoder<T> analyzeEncoder(final Type manifest, final Type element, final DslJson json) {
 		final Class<?> raw = checkSignature(element);
 		if (raw == null) return null;
 		final JsonWriter.WriteObject<?> writer = Object.class == element ? null : json.tryFindWriter(element);

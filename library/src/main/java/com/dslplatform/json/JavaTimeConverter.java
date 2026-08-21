@@ -1,5 +1,7 @@
 package com.dslplatform.json;
 
+import org.jspecify.annotations.Nullable;
+
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -15,49 +17,43 @@ public abstract class JavaTimeConverter {
 	public static final OffsetTime MIN_TIME_UTC = OffsetTime.of(LocalTime.of(0, 0), ZoneOffset.UTC);
 
 	public static final JsonReader.ReadObject<LocalDate> LOCAL_DATE_READER = new JsonReader.ReadObject<LocalDate>() {
-		@Nullable
 		@Override
-		public LocalDate read(JsonReader reader) throws IOException {
+		public @Nullable LocalDate read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : deserializeLocalDate(reader);
 		}
 	};
 	public static final JsonWriter.WriteObject<LocalDate> LOCAL_DATE_WRITER = (writer, value) -> serializeNullable(value, writer);
 	public static final JsonReader.ReadObject<LocalTime> LOCAL_TIME_READER = new JsonReader.ReadObject<LocalTime>() {
-		@Nullable
 		@Override
-		public LocalTime read(JsonReader reader) throws IOException {
+		public @Nullable LocalTime read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : deserializeLocalTime(reader);
 		}
 	};
 	public static final JsonWriter.WriteObject<LocalTime> LOCAL_TIME_WRITER = (writer, value) -> serializeNullable(value, writer);
 	public static final JsonReader.ReadObject<OffsetTime> OFFSET_TIME_READER = new JsonReader.ReadObject<OffsetTime>() {
-		@Nullable
 		@Override
-		public OffsetTime read(JsonReader reader) throws IOException {
+		public @Nullable OffsetTime read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : deserializeOffsetTime(reader);
 		}
 	};
 	public static final JsonWriter.WriteObject<OffsetTime> OFFSET_TIME_WRITER = (writer, value) -> serializeNullable(value, writer);
 	public static final JsonReader.ReadObject<OffsetDateTime> DATE_TIME_READER = new JsonReader.ReadObject<OffsetDateTime>() {
-		@Nullable
 		@Override
-		public OffsetDateTime read(JsonReader reader) throws IOException {
+		public @Nullable OffsetDateTime read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : deserializeDateTime(reader);
 		}
 	};
 	public static final JsonWriter.WriteObject<OffsetDateTime> DATE_TIME_WRITER = (writer, value) -> serializeNullable(value, writer);
 	public static final JsonReader.ReadObject<LocalDateTime> LOCAL_DATE_TIME_READER = new JsonReader.ReadObject<LocalDateTime>() {
-		@Nullable
 		@Override
-		public LocalDateTime read(JsonReader reader) throws IOException {
+		public @Nullable LocalDateTime read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : deserializeLocalDateTime(reader);
 		}
 	};
 	public static final JsonWriter.WriteObject<LocalDateTime> LOCAL_DATE_TIME_WRITER = (writer, value) -> serializeNullable(value, writer);
 	public static final JsonReader.ReadObject<ZonedDateTime> ZONED_DATE_TIME_READER = new JsonReader.ReadObject<ZonedDateTime>() {
-		@Nullable
 		@Override
-		public ZonedDateTime read(JsonReader reader) throws IOException {
+		public @Nullable ZonedDateTime read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : deserializeDateTime(reader).toZonedDateTime();
 		}
 	};
@@ -66,23 +62,20 @@ public abstract class JavaTimeConverter {
 		else serialize(value.toOffsetDateTime(), writer);
 	};
 	private static final JsonReader.ReadObject<java.util.Date> UTIL_DATE_READER = new JsonReader.ReadObject<java.util.Date>() {
-		@Nullable
 		@Override
-		public java.util.Date read(JsonReader reader) throws IOException {
+		public java.util.@Nullable Date read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : java.util.Date.from(deserializeDateTime(reader).toInstant());
 		}
 	};
 	private static final JsonReader.ReadObject<java.sql.Date> SQL_DATE_READER = new JsonReader.ReadObject<java.sql.Date>() {
-		@Nullable
 		@Override
-		public Date read(JsonReader reader) throws IOException {
+		public @Nullable Date read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : java.sql.Date.valueOf(deserializeLocalDate(reader));
 		}
 	};
 	private static final JsonReader.ReadObject<Timestamp> SQL_TIMESTAMP_READER = new JsonReader.ReadObject<Timestamp>() {
-		@Nullable
 		@Override
-		public Timestamp read(JsonReader reader) throws IOException {
+		public @Nullable Timestamp read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : java.sql.Timestamp.from(deserializeDateTime(reader).toInstant());
 		}
 	};
@@ -118,7 +111,7 @@ public abstract class JavaTimeConverter {
 		});
 	}
 
-	public static void serializeNullable(@Nullable final OffsetDateTime value, final JsonWriter sw) {
+	public static void serializeNullable(final @Nullable OffsetDateTime value, final JsonWriter sw) {
 		if (value == null) {
 			sw.writeNull();
 		} else {
@@ -126,7 +119,7 @@ public abstract class JavaTimeConverter {
 		}
 	}
 
-	public static void serializeNullable(@Nullable final LocalTime value, final JsonWriter sw) {
+	public static void serializeNullable(final @Nullable LocalTime value, final JsonWriter sw) {
 		if (value == null) {
 			sw.writeNull();
 		} else {
@@ -134,7 +127,7 @@ public abstract class JavaTimeConverter {
 		}
 	}
 
-	public static void serializeNullable(@Nullable final OffsetTime value, final JsonWriter sw) {
+	public static void serializeNullable(final @Nullable OffsetTime value, final JsonWriter sw) {
 		if (value == null) {
 			sw.writeNull();
 		} else {
@@ -142,7 +135,7 @@ public abstract class JavaTimeConverter {
 		}
 	}
 
-	public static void serializeNullable(@Nullable final LocalDateTime value, final JsonWriter sw) {
+	public static void serializeNullable(final @Nullable LocalDateTime value, final JsonWriter sw) {
 		if (value == null) {
 			sw.writeNull();
 		} else {
@@ -483,7 +476,7 @@ public abstract class JavaTimeConverter {
 		reader.deserializeNullableCollection(LOCAL_TIME_READER, res);
 	}
 
-	public static void serializeNullable(@Nullable final LocalDate value, final JsonWriter sw) {
+	public static void serializeNullable(final @Nullable LocalDate value, final JsonWriter sw) {
 		if (value == null) {
 			sw.writeNull();
 		} else {

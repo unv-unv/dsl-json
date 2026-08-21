@@ -1,5 +1,7 @@
 package com.dslplatform.json;
 
+import org.jspecify.annotations.Nullable;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,17 +13,15 @@ public abstract class BoolConverter {
 
 	public static final JsonReader.ReadObject<Boolean> READER = reader -> deserialize(reader);
 	public static final JsonReader.ReadObject<Boolean> NULLABLE_READER = new JsonReader.ReadObject<Boolean>() {
-		@Nullable
 		@Override
-		public Boolean read(JsonReader reader) throws IOException {
+		public @Nullable Boolean read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : deserialize(reader);
 		}
 	};
 	public static final JsonWriter.WriteObject<Boolean> WRITER = (writer, value) -> serializeNullable(value, writer);
 	public static final JsonReader.ReadObject<boolean[]> ARRAY_READER = new JsonReader.ReadObject<boolean[]>() {
-		@Nullable
 		@Override
-		public boolean[] read(JsonReader reader) throws IOException {
+		public boolean @Nullable [] read(JsonReader reader) throws IOException {
 			if (reader.wasNull()) return null;
 			if (reader.last() != '[') throw reader.newParseError("Expecting '[' for boolean array start");
 			reader.getNextToken();
@@ -40,7 +40,7 @@ public abstract class BoolConverter {
 		json.registerWriter(Boolean.class, WRITER);
 	}
 
-	public static void serializeNullable(@Nullable final Boolean value, final JsonWriter sw) {
+	public static void serializeNullable(final @Nullable Boolean value, final JsonWriter sw) {
 		if (value == null) {
 			sw.writeNull();
 		} else if (value) {
@@ -58,7 +58,7 @@ public abstract class BoolConverter {
 		}
 	}
 
-	public static void serialize(@Nullable final boolean[] value, final JsonWriter sw) {
+	public static void serialize(final boolean @Nullable [] value, final JsonWriter sw) {
 		if (value == null) {
 			sw.writeNull();
 		} else if (value.length == 0) {

@@ -1,5 +1,7 @@
 package com.dslplatform.json.runtime;
 
+import org.jspecify.annotations.Nullable;
+
 import com.dslplatform.json.*;
 import com.dslplatform.json.processor.Analysis;
 
@@ -38,14 +40,12 @@ public abstract class ImmutableAnalyzer {
 		}
 	}
 
-	@Nullable
-	public static String[] extractNames(Method factory) {
+	public static String @Nullable [] extractNames(Method factory) {
 		if (factory == null) throw new IllegalArgumentException("factory can't be null");
 		return parameterNameExtractor.extractNames(factory);
 	}
 
-	@Nullable
-	public static String[] extractNames(Constructor<?> ctor) {
+	public static String @Nullable [] extractNames(Constructor<?> ctor) {
 		if (ctor == null) throw new IllegalArgumentException("ctor can't be null");
 		return parameterNameExtractor.extractNames(ctor);
 	}
@@ -98,7 +98,7 @@ public abstract class ImmutableAnalyzer {
 		}
 
 		@Override
-		public void write(final JsonWriter writer, @Nullable final Object value) {
+		public void write(final JsonWriter writer, final @Nullable Object value) {
 			if (encoder == null) {
 				if (checkSignatureNotFound()) {
 					final JsonWriter.WriteObject tmp = json.tryFindWriter(type);
@@ -113,9 +113,8 @@ public abstract class ImmutableAnalyzer {
 	}
 
 	public static final DslJson.ConverterFactory<ImmutableDescription> CONVERTER = new DslJson.ConverterFactory<ImmutableDescription>() {
-		@Nullable
 		@Override
-		public ImmutableDescription tryCreate(Type manifest, DslJson dslJson) {
+		public @Nullable ImmutableDescription tryCreate(Type manifest, DslJson dslJson) {
 			if (manifest instanceof Class<?>) {
 				return analyze(manifest, (Class<?>) manifest, dslJson);
 			}
@@ -129,8 +128,7 @@ public abstract class ImmutableAnalyzer {
 		}
 	};
 
-	@Nullable
-	private static <T> ImmutableDescription<T> analyze(final Type manifest, final Class<T> raw, final DslJson<?> json) {
+	private static <T> @Nullable ImmutableDescription<T> analyze(final Type manifest, final Class<T> raw, final DslJson<?> json) {
 		if (raw.isArray()
 				|| Collection.class.isAssignableFrom(raw)
 				|| (raw.getModifiers() & Modifier.ABSTRACT) != 0
@@ -255,7 +253,7 @@ public abstract class ImmutableAnalyzer {
 		final Settings.Function<Object[], T> instanceFactory = factory != null
 				? new Settings.Function<Object[], T>() {
 					@Override
-					public T apply(@Nullable Object[] args) {
+					public T apply(Object @Nullable [] args) {
 						try {
 							return (T) factory.invoke(null, args);
 						} catch (Exception ex) {
@@ -265,7 +263,7 @@ public abstract class ImmutableAnalyzer {
 				}
 				: new Settings.Function<Object[], T>() {
 					@Override
-					public T apply(@Nullable Object[] args) {
+					public T apply(Object @Nullable [] args) {
 						try {
 							return raw.cast(ctor.newInstance(args));
 						} catch (Exception ex) {
@@ -287,7 +285,7 @@ public abstract class ImmutableAnalyzer {
 		return converter;
 	}
 
-	static @Nullable <T> Constructor<?> findBestCtor(Class<?> raw, DslJson<T> json) {
+	static <T> @Nullable Constructor<?> findBestCtor(Class<?> raw, DslJson<T> json) {
 		final Map<Class<? extends Annotation>, Boolean> creatorMarkers = json.getRegisteredCreatorMarkers();
 		final ArrayList<Constructor<?>> ctors = new ArrayList<>();
 		boolean hasCtorWithMarker = false;
@@ -319,7 +317,7 @@ public abstract class ImmutableAnalyzer {
 		return !hasCtorWithMarker && ctors.size() != 1 ? null : ctors.get(0);
 	}
 
-	private static @Nullable <T> Method findBestFactory(Class<?> raw, DslJson<T> json) {
+	private static <T> @Nullable Method findBestFactory(Class<?> raw, DslJson<T> json) {
 		final Map<Class<? extends Annotation>, Boolean> creatorMarkers = json.getRegisteredCreatorMarkers();
 		if (creatorMarkers.isEmpty()) return null;
 		for (final Method factory : raw.getDeclaredMethods()) {
@@ -366,8 +364,7 @@ public abstract class ImmutableAnalyzer {
 		}
 	}
 
-	@Nullable
-	private static <T> ImmutableDescription<T> unregister(Type manifest, DslJson<?> json, @Nullable JsonWriter.WriteObject oldWriter, @Nullable JsonReader.ReadObject oldReader) {
+	private static <T> @Nullable ImmutableDescription<T> unregister(Type manifest, DslJson<?> json, JsonWriter.@Nullable WriteObject oldWriter, JsonReader.@Nullable ReadObject oldReader) {
 		json.registerWriter(manifest, oldWriter);
 		json.registerReader(manifest, oldReader);
 		return null;

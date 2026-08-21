@@ -2,7 +2,7 @@ package com.dslplatform.json.processor;
 
 import com.dslplatform.json.CompiledJson;
 import com.dslplatform.json.JsonAttribute;
-import com.dslplatform.json.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import javax.lang.model.element.*;
 import javax.lang.model.type.*;
@@ -12,12 +12,12 @@ import java.util.*;
 public class AttributeInfo {
 	public final String id;
 	public final String name;
-	@Nullable public final ExecutableElement readMethod;
-	@Nullable public final ExecutableElement writeMethod;
-	@Nullable public final VariableElement field;
-	@Nullable public final VariableElement argument;
+	public final @Nullable ExecutableElement readMethod;
+	public final @Nullable ExecutableElement writeMethod;
+	public final @Nullable VariableElement field;
+	public final @Nullable VariableElement argument;
 	public final TypeMirror type;
-	@Nullable public final AnnotationMirror annotation;
+	public final @Nullable AnnotationMirror annotation;
 	public final Element element;
 	public final boolean notNull;
 	public final boolean mandatory;
@@ -56,7 +56,7 @@ public class AttributeInfo {
 			final int index,
 			@Nullable String alias,
 			boolean fullMatch,
-			@Nullable CompiledJson.TypeSignature typeSignature,
+			CompiledJson.@Nullable TypeSignature typeSignature,
 			JsonAttribute.IncludePolicy includeToMinimal,
 			@Nullable ConverterInfo converter,
 			boolean isJsonObject,
@@ -149,8 +149,7 @@ public class AttributeInfo {
 		return field != null || readMethod != null;
 	}
 
-	@Nullable
-	public List<String> collectionContent(TypeSupport typeSupport, Map<String, StructInfo> structs) {
+	public @Nullable List<String> collectionContent(TypeSupport typeSupport, Map<String, StructInfo> structs) {
 		if (isArray) {
 			String content = typeName.substring(0, typeName.length() - 2);
 			return canResolveCollection(content, typeSupport, structs) ? Collections.singletonList(content) : null;

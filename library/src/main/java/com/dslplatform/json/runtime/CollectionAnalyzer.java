@@ -1,5 +1,7 @@
 package com.dslplatform.json.runtime;
 
+import org.jspecify.annotations.Nullable;
+
 import com.dslplatform.json.*;
 
 import java.io.IOException;
@@ -48,9 +50,8 @@ public abstract class CollectionAnalyzer {
 	}
 
 	public static final DslJson.ConverterFactory<CollectionDecoder> READER = new DslJson.ConverterFactory<CollectionDecoder>() {
-		@Nullable
 		@Override
-		public CollectionDecoder tryCreate(Type manifest, DslJson dslJson) {
+		public @Nullable CollectionDecoder tryCreate(Type manifest, DslJson dslJson) {
 			if (manifest instanceof Class<?>) {
 				return analyzeDecoding(manifest, Object.class, (Class<?>) manifest, dslJson);
 			}
@@ -65,9 +66,8 @@ public abstract class CollectionAnalyzer {
 	};
 
 	public static final DslJson.ConverterFactory<CollectionEncoder> WRITER = new DslJson.ConverterFactory<CollectionEncoder>() {
-		@Nullable
 		@Override
-		public CollectionEncoder tryCreate(Type manifest, DslJson dslJson) {
+		public @Nullable CollectionEncoder tryCreate(Type manifest, DslJson dslJson) {
 			if (manifest instanceof Class<?>) {
 				return analyzeEncoding(manifest, Object.class, (Class<?>) manifest, dslJson);
 			}
@@ -81,8 +81,7 @@ public abstract class CollectionAnalyzer {
 		}
 	};
 
-	@Nullable
-	private static CollectionDecoder analyzeDecoding(final Type manifest, final Type element, final Class<?> collection, final DslJson json) {
+	private static @Nullable CollectionDecoder analyzeDecoding(final Type manifest, final Type element, final Class<?> collection, final DslJson json) {
 		if (!Collection.class.isAssignableFrom(collection)) return null;
 		final Callable newInstance;
 		if (!collection.isInterface()) {
@@ -130,8 +129,7 @@ public abstract class CollectionAnalyzer {
 		return decoder;
 	}
 
-	@Nullable
-	private static CollectionEncoder analyzeEncoding(final Type manifest, final Type element, final Class<?> collection, final DslJson json) {
+	private static @Nullable CollectionEncoder analyzeEncoding(final Type manifest, final Type element, final Class<?> collection, final DslJson json) {
 		if (!Collection.class.isAssignableFrom(collection)) return null;
 		final JsonWriter.WriteObject<?> writer = Object.class == element ? null : json.tryFindWriter(element);
 		if (Object.class != element && writer == null) {

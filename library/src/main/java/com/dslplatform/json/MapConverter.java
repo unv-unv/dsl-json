@@ -1,19 +1,20 @@
 package com.dslplatform.json;
 
+import org.jspecify.annotations.Nullable;
+
 import java.io.IOException;
 import java.util.*;
 
 public abstract class MapConverter {
 
 	private static final JsonReader.ReadObject<Map<String, String>> TYPED_MAP_READER = new JsonReader.ReadObject<Map<String, String>>() {
-		@Nullable
 		@Override
-		public Map<String, String> read(JsonReader reader) throws IOException {
+		public @Nullable Map<String, String> read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : deserialize(reader);
 		}
 	};
 
-	public static void serializeNullable(@Nullable final Map<String, String> value, final JsonWriter sw) {
+	public static void serializeNullable(final @Nullable Map<String, String> value, final JsonWriter sw) {
 		if (value == null) {
 			sw.writeNull();
 		} else {

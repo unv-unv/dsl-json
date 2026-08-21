@@ -1,5 +1,7 @@
 package com.dslplatform.json;
 
+import org.jspecify.annotations.NullMarked;
+
 import com.dslplatform.json.runtime.Settings;
 import org.junit.Assert;
 import org.junit.Test;
@@ -485,11 +487,11 @@ public class TypesTest {
 	}
 
 	@CompiledJson
+	@NullMarked
 	public static class NonNullable1 {
 
 		private String s;
 
-		@NonNull
 		public String getS() { return s; }
 
 		public NonNullable1(String s) {
@@ -498,9 +500,9 @@ public class TypesTest {
 	}
 
 	@CompiledJson
+	@NullMarked
 	public static class NonNullable2 {
 
-		@NonNull
 		private String s;
 
 		public String getS() { return s; }
@@ -567,11 +569,11 @@ public class TypesTest {
 		}
 	}
 
+	@NullMarked
 	public static class NonNullable6 {
 
 		private String s;
 
-		@NonNull
 		public String getS() { return s; }
 
 		private NonNullable6() {

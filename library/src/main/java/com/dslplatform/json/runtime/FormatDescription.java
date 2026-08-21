@@ -1,5 +1,7 @@
 package com.dslplatform.json.runtime;
 
+import org.jspecify.annotations.Nullable;
+
 import com.dslplatform.json.*;
 
 import java.io.IOException;
@@ -26,8 +28,8 @@ public final class FormatDescription<T> implements JsonWriter.WriteObject<T>, Js
 
 	public FormatDescription(
 			final Type manifest,
-			@Nullable final FormatConverter<T> objectFormat,
-			@Nullable final FormatConverter<T> arrayFormat,
+			final @Nullable FormatConverter<T> objectFormat,
+			final @Nullable FormatConverter<T> arrayFormat,
 			final boolean isObjectFormatFirst,
 			final String typeName,
 			final DslJson json) {
@@ -59,7 +61,7 @@ public final class FormatDescription<T> implements JsonWriter.WriteObject<T>, Js
 		this.formatErrorArray = String.format("Array format for %s is not defined", Reflection.typeDescription(manifest));
 	}
 
-	public final void write(final JsonWriter writer, @Nullable final T instance) {
+	public final void write(final JsonWriter writer, final @Nullable T instance) {
 		if (instance == null) {
 			writer.writeNull();
 		} else if (isObjectFormatFirst) {
@@ -69,8 +71,7 @@ public final class FormatDescription<T> implements JsonWriter.WriteObject<T>, Js
 		}
 	}
 
-	@Nullable
-	public T read(final JsonReader reader) throws IOException {
+	public @Nullable T read(final JsonReader reader) throws IOException {
 		if (reader.wasNull()) return null;
 		if (reader.last() == '{') {
 			if (objectFormat == null) throw reader.newParseError(formatErrorObject);

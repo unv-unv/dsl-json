@@ -1,5 +1,7 @@
 package com.dslplatform.json;
 
+import org.jspecify.annotations.Nullable;
+
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -96,10 +98,10 @@ public final class JsonReader<TContext> {
 			final char[] tmp,
 			final byte[] buffer,
 			final int length,
-			@Nullable final TContext context,
-			@Nullable final StringCache keyCache,
-			@Nullable final StringCache valuesCache,
-			@Nullable final TypeLookup typeLookup,
+			final @Nullable TContext context,
+			final @Nullable StringCache keyCache,
+			final @Nullable StringCache valuesCache,
+			final @Nullable TypeLookup typeLookup,
 			final ErrorInfo errorInfo,
 			final DoublePrecision doublePrecision,
 			final UnknownNumberParsing unknownNumbers,
@@ -127,11 +129,11 @@ public final class JsonReader<TContext> {
 	JsonReader(
 			final byte[] buffer,
 			final int length,
-			@Nullable final TContext context,
+			final @Nullable TContext context,
 			final char[] tmp,
-			@Nullable final StringCache keyCache,
-			@Nullable final StringCache valuesCache,
-			@Nullable final TypeLookup typeLookup,
+			final @Nullable StringCache keyCache,
+			final @Nullable StringCache valuesCache,
+			final @Nullable TypeLookup typeLookup,
 			final ErrorInfo errorInfo,
 			final DoublePrecision doublePrecision,
 			final UnknownNumberParsing unknownNumbers,
@@ -190,7 +192,7 @@ public final class JsonReader<TContext> {
 	 * @return itself
 	 * @throws IOException unable to read from stream
 	 */
-	public final JsonReader<TContext> process(@Nullable final InputStream stream) throws IOException {
+	public final JsonReader<TContext> process(final @Nullable InputStream stream) throws IOException {
 		this.currentPosition = 0;
 		this.currentIndex = 0;
 		this.stream = stream;
@@ -212,7 +214,7 @@ public final class JsonReader<TContext> {
 	 * @param newLength length of buffer which can be used
 	 * @return itself
 	 */
-	public final JsonReader<TContext> process(@Nullable final byte[] newBuffer, final int newLength) {
+	public final JsonReader<TContext> process(final byte @Nullable [] newBuffer, final int newLength) {
 		if (newBuffer != null) {
 			this.buffer = newBuffer;
 			this.bufferLenWithExtraSpace = buffer.length - 38; //currently maximum padding is for uuid
@@ -1375,8 +1377,7 @@ public final class JsonReader<TContext> {
 		}
 	}
 
-	@Nullable
-	private Object readNull(final Class<?> manifest) throws IOException {
+	private @Nullable Object readNull(final Class<?> manifest) throws IOException {
 		if (!wasNull()) throw newParseErrorAt("Expecting 'null' as null constant", 0);
 		if (manifest.isPrimitive()) {
 			if (manifest == int.class) return 0;
@@ -1400,8 +1401,7 @@ public final class JsonReader<TContext> {
 	 * @throws IOException unable to process JSON
 	 */
 	@SuppressWarnings("unchecked")
-	@Nullable
-	public final <T> T next(final Class<T> manifest) throws IOException {
+	public final <T> @Nullable T next(final Class<T> manifest) throws IOException {
 		if (manifest == null) throw new IllegalArgumentException("manifest can't be null");
 		if (typeLookup == null) throw new ConfigurationException("typeLookup is not defined for this JsonReader. Unable to lookup specified type " + manifest);
 		if (this.getNextToken() == 'n') {
@@ -1422,8 +1422,7 @@ public final class JsonReader<TContext> {
 	 * @return new instance from input JSON
 	 * @throws IOException unable to process JSON
 	 */
-	@Nullable
-	public final <T> T next(final ReadObject<T> reader) throws IOException {
+	public final <T> @Nullable T next(final ReadObject<T> reader) throws IOException {
 		if (reader == null) throw new IllegalArgumentException("reader can't be null");
 		if (this.getNextToken() == 'n') {
 			if (!wasNull()) throw newParseErrorAt("Expecting 'null' as null constant", 0);
@@ -1442,8 +1441,7 @@ public final class JsonReader<TContext> {
 	 * @throws IOException unable to process JSON
 	 */
 	@SuppressWarnings("unchecked")
-	@Nullable
-	public final <T> T next(final Class<T> manifest, final T instance) throws IOException {
+	public final <T> @Nullable T next(final Class<T> manifest, final T instance) throws IOException {
 		if (manifest == null) throw new IllegalArgumentException("manifest can't be null");
 		if (instance == null) throw new IllegalArgumentException("instance can't be null");
 		if (typeLookup == null) throw new ConfigurationException("typeLookup is not defined for this JsonReader. Unable to lookup specified type " + manifest);
@@ -1465,8 +1463,7 @@ public final class JsonReader<TContext> {
 	 * @throws IOException unable to process JSON
 	 */
 	@SuppressWarnings("unchecked")
-	@Nullable
-	public final <T> T next(final BindObject<T> binder, final T instance) throws IOException {
+	public final <T> @Nullable T next(final BindObject<T> binder, final T instance) throws IOException {
 		if (binder == null) throw new IllegalArgumentException("binder can't be null");
 		if (instance == null) throw new IllegalArgumentException("instance can't be null");
 		if (this.getNextToken() == 'n') {
@@ -1476,8 +1473,7 @@ public final class JsonReader<TContext> {
 		return binder.bind(this, instance);
 	}
 
-	@Nullable
-	public final <T> ArrayList<T> readCollection(final ReadObject<T> readObject) throws IOException {
+	public final <T> @Nullable ArrayList<T> readCollection(final ReadObject<T> readObject) throws IOException {
 		if (wasNull()) return null;
 		if (last != '[') throw newParseError("Expecting '[' as collection start");
 		if (getNextToken() == ']') return new ArrayList<T>(0);
@@ -1491,8 +1487,7 @@ public final class JsonReader<TContext> {
 		return res;
 	}
 
-	@Nullable
-	public final <T> LinkedHashSet<T> readSet(final ReadObject<T> readObject) throws IOException {
+	public final <T> @Nullable LinkedHashSet<T> readSet(final ReadObject<T> readObject) throws IOException {
 		if (wasNull()) return null;
 		if (last != '[') throw newParseError("Expecting '[' as set start");
 		if (getNextToken() == ']') return new LinkedHashSet<T>(0);
@@ -1506,8 +1501,7 @@ public final class JsonReader<TContext> {
 		return res;
 	}
 
-	@Nullable
-	public final <K, V> LinkedHashMap<K, V> readMap(final ReadObject<K> readKey, final ReadObject<V> readValue) throws IOException {
+	public final <K, V> @Nullable LinkedHashMap<K, V> readMap(final ReadObject<K> readKey, final ReadObject<V> readValue) throws IOException {
 		if (wasNull()) return null;
 		if (last != '{') throw newParseError("Expecting '{' as map start");
 		if (getNextToken() == '}') return new LinkedHashMap<K, V>(0);
@@ -1531,8 +1525,7 @@ public final class JsonReader<TContext> {
 		return res;
 	}
 
-	@Nullable
-	public final <T> T[] readArray(final ReadObject<T> readObject, final T[] emptyArray) throws IOException {
+	public final <T> T @Nullable [] readArray(final ReadObject<T> readObject, final T[] emptyArray) throws IOException {
 		if (wasNull()) return null;
 		if (last != '[') throw newParseError("Expecting '[' as array start");
 		if (getNextToken() == ']') return emptyArray;
@@ -1657,9 +1650,8 @@ public final class JsonReader<TContext> {
 		public void remove() {
 		}
 
-		@Nullable
 		@Override
-		public T next() {
+		public @Nullable T next() {
 			try {
 				byte nextToken = json.last();
 				final T instance;
@@ -1704,9 +1696,8 @@ public final class JsonReader<TContext> {
 		public void remove() {
 		}
 
-		@Nullable
 		@Override
-		public T next() {
+		public @Nullable T next() {
 			try {
 				byte nextToken = json.last();
 				final T instance;

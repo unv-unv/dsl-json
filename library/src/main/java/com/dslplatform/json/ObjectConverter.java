@@ -1,22 +1,22 @@
 package com.dslplatform.json;
 
+import org.jspecify.annotations.Nullable;
+
 import java.io.IOException;
 import java.util.*;
 
 public abstract class ObjectConverter {
 
 	private static final JsonReader.ReadObject<Map<String, Object>> TYPED_MAP_READER = new JsonReader.ReadObject<Map<String, Object>>() {
-		@Nullable
 		@Override
-		public Map<String, Object> read(JsonReader reader) throws IOException {
+		public @Nullable Map<String, Object> read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : deserializeMap(reader);
 		}
 	};
 	@SuppressWarnings("rawtypes")
 	private static final JsonReader.ReadObject<LinkedHashMap> MAP_READER = new JsonReader.ReadObject<LinkedHashMap>() {
-		@Nullable
 		@Override
-		public LinkedHashMap read(JsonReader reader) throws IOException {
+		public @Nullable LinkedHashMap read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : deserializeMap(reader);
 		}
 	};
@@ -38,7 +38,7 @@ public abstract class ObjectConverter {
 		});
 	}
 
-	public static void serializeNullableMap(@Nullable final Map<String, Object> value, final JsonWriter sw) {
+	public static void serializeNullableMap(final @Nullable Map<String, Object> value, final JsonWriter sw) {
 		if (value == null) {
 			sw.writeNull();
 		} else {
@@ -66,12 +66,11 @@ public abstract class ObjectConverter {
 		sw.writeByte(JsonWriter.OBJECT_END);
 	}
 
-	public static void serializeObject(@Nullable final Object value, final JsonWriter sw) throws IOException {
+	public static void serializeObject(final @Nullable Object value, final JsonWriter sw) throws IOException {
 		sw.serializeObject(value);
 	}
 
-	@Nullable
-	public static Object deserializeObject(final JsonReader reader) throws IOException {
+	public static @Nullable Object deserializeObject(final JsonReader reader) throws IOException {
 		switch (reader.last()) {
 			case 'n':
 				if (!reader.wasNull()) {

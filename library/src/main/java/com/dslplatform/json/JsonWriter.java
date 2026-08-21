@@ -1,5 +1,7 @@
 package com.dslplatform.json;
 
+import org.jspecify.annotations.Nullable;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
@@ -45,15 +47,15 @@ public final class JsonWriter {
 	private final UnknownSerializer unknownSerializer;
 	private final Grisu3.FastDtoaBuilder doubleBuilder = new Grisu3.FastDtoaBuilder();
 
-	JsonWriter(@Nullable final UnknownSerializer unknownSerializer) {
+	JsonWriter(final @Nullable UnknownSerializer unknownSerializer) {
 		this(512, unknownSerializer);
 	}
 
-	JsonWriter(final int size, @Nullable final UnknownSerializer unknownSerializer) {
+	JsonWriter(final int size, final @Nullable UnknownSerializer unknownSerializer) {
 		this(new byte[size], unknownSerializer);
 	}
 
-	JsonWriter(final byte[] buffer, @Nullable final UnknownSerializer unknownSerializer) {
+	JsonWriter(final byte[] buffer, final @Nullable UnknownSerializer unknownSerializer) {
 		this.buffer = buffer;
 		this.unknownSerializer = unknownSerializer;
 	}
@@ -685,7 +687,7 @@ public final class JsonWriter {
 	 * @param encoder instance serializer
 	 * @param <T>     type of object
 	 */
-	public <T> void serialize(@Nullable final T[] array, final WriteObject<T> encoder) {
+	public <T> void serialize(final T @Nullable [] array, final WriteObject<T> encoder) {
 		if (array == null) {
 			writeNull();
 			return;
@@ -723,7 +725,7 @@ public final class JsonWriter {
 	 * @param encoder instance serializer
 	 * @param <T>     type of object
 	 */
-	public <T> void serialize(@Nullable final List<T> list, final WriteObject<T> encoder) {
+	public <T> void serialize(final @Nullable List<T> list, final WriteObject<T> encoder) {
 		if (list == null) {
 			writeNull();
 			return;
@@ -768,7 +770,7 @@ public final class JsonWriter {
 		writeByte(ARRAY_END);
 	}
 
-	public void serializeRaw(@Nullable final List list, final WriteObject encoder) {
+	public void serializeRaw(final @Nullable List list, final WriteObject encoder) {
 		serialize(list, encoder);
 	}
 
@@ -781,7 +783,7 @@ public final class JsonWriter {
 	 * @param encoder instance serializer
 	 * @param <T> type of object
 	 */
-	public <T> void serialize(@Nullable final Collection<T> collection, final WriteObject<T> encoder) {
+	public <T> void serialize(final @Nullable Collection<T> collection, final WriteObject<T> encoder) {
 		if (collection == null) {
 			writeNull();
 			return;
@@ -808,11 +810,11 @@ public final class JsonWriter {
 		writeByte(ARRAY_END);
 	}
 
-	public void serializeRaw(@Nullable final Collection collection, final WriteObject encoder) {
+	public void serializeRaw(final @Nullable Collection collection, final WriteObject encoder) {
 		serialize(collection, encoder);
 	}
 
-	public <K, V> void serialize(@Nullable final Map<K, V> map, final WriteObject<K> keyEncoder, final WriteObject<V> valueEncoder) {
+	public <K, V> void serialize(final @Nullable Map<K, V> map, final WriteObject<K> keyEncoder, final WriteObject<V> valueEncoder) {
 		if (map == null) {
 			writeNull();
 			return;
@@ -836,7 +838,7 @@ public final class JsonWriter {
 		writeByte(OBJECT_END);
 	}
 
-	public void serializeRaw(@Nullable final Map map, final WriteObject keyEncoder, final WriteObject valueEncoder) {
+	public void serializeRaw(final @Nullable Map map, final WriteObject keyEncoder, final WriteObject valueEncoder) {
 		serialize(map, keyEncoder, valueEncoder);
 	}
 
@@ -878,7 +880,7 @@ public final class JsonWriter {
 	 *
 	 * @param value instance to serialize
 	 */
-	public void serializeObject(@Nullable final Object value) {
+	public void serializeObject(final @Nullable Object value) {
 		if (value == null) {
 			writeNull();
 		} else if (unknownSerializer != null) {

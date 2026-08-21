@@ -1,5 +1,7 @@
 package com.dslplatform.json;
 
+import org.jspecify.annotations.Nullable;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,9 +11,8 @@ import java.util.List;
 public abstract class StringConverter {
 
 	public static final JsonReader.ReadObject<String> READER = new JsonReader.ReadObject<String>() {
-		@Nullable
 		@Override
-		public String read(JsonReader reader) throws IOException {
+		public @Nullable String read(JsonReader reader) throws IOException {
 			if (reader.wasNull()) return null;
 			return reader.readString();
 		}
@@ -33,27 +34,24 @@ public abstract class StringConverter {
 	};
 	public static final char[] EMPTY_ARRAY = new char[0];
 	public static final JsonReader.ReadObject<StringBuilder> READER_BUILDER = new JsonReader.ReadObject<StringBuilder>() {
-		@Nullable
 		@Override
-		public StringBuilder read(JsonReader reader) throws IOException {
+		public @Nullable StringBuilder read(JsonReader reader) throws IOException {
 			if (reader.wasNull()) return null;
 			StringBuilder builder = new StringBuilder();
 			return reader.appendString(builder);
 		}
 	};
 	public static final JsonReader.ReadObject<StringBuffer> READER_BUFFER = new JsonReader.ReadObject<StringBuffer>() {
-		@Nullable
 		@Override
-		public StringBuffer read(JsonReader reader) throws IOException {
+		public @Nullable StringBuffer read(JsonReader reader) throws IOException {
 			if (reader.wasNull()) return null;
 			StringBuffer builder = new StringBuffer();
 			return reader.appendString(builder);
 		}
 	};
 	public static final JsonReader.ReadObject<char[]> READER_ARRAY = new JsonReader.ReadObject<char[]>() {
-		@Nullable
 		@Override
-		public char[] read(JsonReader reader) throws IOException {
+		public char @Nullable [] read(JsonReader reader) throws IOException {
 			if (reader.wasNull()) return null;
 			int len = reader.parseString();
 			return Arrays.copyOf(reader.chars, len);
@@ -70,7 +68,7 @@ public abstract class StringConverter {
 		json.registerReader(char[].class, READER_ARRAY);
 	}
 
-	public static void serializeShortNullable(@Nullable final String value, final JsonWriter sw) {
+	public static void serializeShortNullable(final @Nullable String value, final JsonWriter sw) {
 		if (value == null) {
 			sw.writeNull();
 		} else {
@@ -82,7 +80,7 @@ public abstract class StringConverter {
 		sw.writeString(value);
 	}
 
-	public static void serializeNullable(@Nullable final String value, final JsonWriter sw) {
+	public static void serializeNullable(final @Nullable String value, final JsonWriter sw) {
 		if (value == null) {
 			sw.writeNull();
 		} else {
@@ -98,8 +96,7 @@ public abstract class StringConverter {
 		return reader.readString();
 	}
 
-	@Nullable
-	public static String deserializeNullable(final JsonReader reader) throws IOException {
+	public static @Nullable String deserializeNullable(final JsonReader reader) throws IOException {
 		if (reader.last() == 'n') {
 			if (!reader.wasNull()) throw reader.newParseErrorAt("Expecting 'null' for null constant", 0);
 			return null;

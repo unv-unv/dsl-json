@@ -1,5 +1,7 @@
 package com.dslplatform.json.runtime;
 
+import org.jspecify.annotations.Nullable;
+
 import com.dslplatform.json.*;
 import com.dslplatform.json.processor.Analysis;
 
@@ -40,7 +42,7 @@ public abstract class MixinAnalyzer {
 		}
 
 		@Override
-		public void write(final JsonWriter writer, @Nullable final Object value) {
+		public void write(final JsonWriter writer, final @Nullable Object value) {
 			if (resolvedWriter == null) {
 				if (checkSignatureNotFound()) {
 					final JsonWriter.WriteObject tmp = json.tryFindWriter(type);
@@ -55,9 +57,8 @@ public abstract class MixinAnalyzer {
 	}
 
 	public static final DslJson.ConverterFactory<ObjectFormatDescription> WRITER = new DslJson.ConverterFactory<ObjectFormatDescription>() {
-		@Nullable
 		@Override
-		public ObjectFormatDescription tryCreate(Type manifest, DslJson dslJson) {
+		public @Nullable ObjectFormatDescription tryCreate(Type manifest, DslJson dslJson) {
 			if (manifest instanceof Class<?>) {
 				return analyze(manifest, (Class<?>) manifest, dslJson);
 			}
@@ -69,8 +70,7 @@ public abstract class MixinAnalyzer {
 		}
 	};
 
-	@Nullable
-	private static <T> ObjectFormatDescription<T, T> analyze(final Type manifest, final Class<T> raw, final DslJson json) {
+	private static <T> @Nullable ObjectFormatDescription<T, T> analyze(final Type manifest, final Class<T> raw, final DslJson json) {
 		if (raw.isArray()
 				|| Object.class == manifest
 				|| !raw.isInterface() && (raw.getModifiers() & Modifier.ABSTRACT) == 0

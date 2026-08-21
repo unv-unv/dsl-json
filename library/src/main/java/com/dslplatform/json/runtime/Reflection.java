@@ -1,7 +1,7 @@
 package com.dslplatform.json.runtime;
 
 import com.dslplatform.json.ConfigurationException;
-import com.dslplatform.json.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

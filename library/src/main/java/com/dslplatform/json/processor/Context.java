@@ -1,6 +1,6 @@
 package com.dslplatform.json.processor;
 
-import com.dslplatform.json.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.ExecutableElement;

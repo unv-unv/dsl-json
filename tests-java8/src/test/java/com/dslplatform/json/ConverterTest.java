@@ -1,5 +1,7 @@
 package com.dslplatform.json;
 
+import org.jspecify.annotations.Nullable;
+
 import com.dslplatform.json.test.CustomNamingStrategyExternal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.junit.Assert;
@@ -41,7 +43,7 @@ public class ConverterTest {
 		public static JsonWriter.WriteObject<byte[]> JSON_WRITER() {
 			return new JsonWriter.WriteObject<byte[]>() {
 				@Override
-				public void write(JsonWriter writer, @Nullable byte[] value) {
+				public void write(JsonWriter writer, byte @Nullable [] value) {
 					writer.writeNull();
 				}
 			};

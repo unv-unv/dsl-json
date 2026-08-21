@@ -1,7 +1,7 @@
 package com.dslplatform.json.runtime;
 
 import com.dslplatform.json.JsonReader;
-import com.dslplatform.json.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,9 +20,8 @@ public final class ArrayDecoder<T> implements JsonReader.ReadObject<T[]> {
 		this.decoder = decoder;
 	}
 
-	@Nullable
 	@Override
-	public T[] read(final JsonReader reader) throws IOException {
+	public T @Nullable [] read(final JsonReader reader) throws IOException {
 		if (reader.wasNull()) return null;
 		if (reader.last() != '[') throw reader.newParseError("Expecting '[' for array start");
 		if (reader.getNextToken() == ']') return emptyInstance;

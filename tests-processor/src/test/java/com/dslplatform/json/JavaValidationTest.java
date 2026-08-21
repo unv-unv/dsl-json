@@ -901,7 +901,7 @@ public class JavaValidationTest extends AbstractAnnotationProcessorTest {
 		Assert.assertEquals(2, diagnostics.size());
 		assertCompilationReturned(
 				Diagnostic.Kind.WARNING,
-				20,
+				21,
 				compileTestCase(VoidOnBuilderReturn.class),
 				"Skipping over method 'setS' because its return type is not the expected 'com.dslplatform.json.models.VoidOnBuilderReturn.Builder'");
 	}

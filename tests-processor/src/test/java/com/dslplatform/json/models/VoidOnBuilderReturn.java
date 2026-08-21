@@ -1,13 +1,14 @@
 package com.dslplatform.json.models;
 
 import com.dslplatform.json.*;
+import org.jspecify.annotations.NullMarked;
 
 @CompiledJson
+@NullMarked
 public class VoidOnBuilderReturn {
 
 	private String s;
 
-	@NonNull
 	public String getS() { return s; }
 
 	private VoidOnBuilderReturn() {

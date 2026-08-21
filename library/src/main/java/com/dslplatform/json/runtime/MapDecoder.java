@@ -2,7 +2,7 @@ package com.dslplatform.json.runtime;
 
 import com.dslplatform.json.ConfigurationException;
 import com.dslplatform.json.JsonReader;
-import com.dslplatform.json.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -31,9 +31,8 @@ public final class MapDecoder<K, V, T extends Map<K, V>> implements JsonReader.R
 		this.valueDecoder = valueDecoder;
 	}
 
-	@Nullable
 	@Override
-	public T read(JsonReader reader) throws IOException {
+	public @Nullable T read(JsonReader reader) throws IOException {
 		if (reader.wasNull()) return null;
 		if (reader.last() != '{') throw reader.newParseError("Expecting '{' for map start");
 		final T instance;

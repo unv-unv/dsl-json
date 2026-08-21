@@ -23,7 +23,6 @@ public class CollectionTest {
 	@CompiledJson
 	public static class AlternativeMarkers {
 		@JsonProperty
-		@NonNull
 		@NotNull
 		private final List<String> collection = new ArrayList<String>();
 		public List<String> getCollection() { return collection; }

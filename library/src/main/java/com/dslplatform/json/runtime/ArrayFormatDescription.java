@@ -2,7 +2,7 @@ package com.dslplatform.json.runtime;
 
 import com.dslplatform.json.JsonReader;
 import com.dslplatform.json.JsonWriter;
-import com.dslplatform.json.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -58,7 +58,7 @@ public final class ArrayFormatDescription<B, T> implements FormatConverter<T>, J
 	}
 
 	@Override
-	public final void write(final JsonWriter writer, @Nullable final T instance) {
+	public final void write(final JsonWriter writer, final @Nullable T instance) {
 		if (instance == null) {
 			writer.writeNull();
 		} else {
@@ -69,7 +69,7 @@ public final class ArrayFormatDescription<B, T> implements FormatConverter<T>, J
 	}
 
 	@Override
-	public void writeContentFull(final JsonWriter writer, @Nullable final T instance) {
+	public void writeContentFull(final JsonWriter writer, final @Nullable T instance) {
 		if (isEmpty) return;
 		encoders[0].write(writer, instance);
 		for (int i = 1; i < encoders.length; i++) {
@@ -79,14 +79,13 @@ public final class ArrayFormatDescription<B, T> implements FormatConverter<T>, J
 	}
 
 	@Override
-	public boolean writeContentMinimal(final JsonWriter writer, @Nullable final T instance) {
+	public boolean writeContentMinimal(final JsonWriter writer, final @Nullable T instance) {
 		writeContentFull(writer, instance);
 		return false;
 	}
 
-	@Nullable
 	@Override
-	public T read(final JsonReader reader) throws IOException {
+	public @Nullable T read(final JsonReader reader) throws IOException {
 		if (reader.wasNull()) return null;
 		final B instance = newInstance.create();
 		bind(reader, instance);

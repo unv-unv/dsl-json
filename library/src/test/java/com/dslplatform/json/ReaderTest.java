@@ -1,5 +1,7 @@
 package com.dslplatform.json;
 
+import org.jspecify.annotations.Nullable;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -53,9 +55,8 @@ public class ReaderTest {
 	public void testReaderOnInterface() throws IOException {
 		DslJson<Object> dslJson = new DslJson<Object>();
 		dslJson.registerReader(Implementation.class, new JsonReader.ReadObject<Implementation>() {
-			@Nullable
 			@Override
-			public Implementation read(JsonReader reader) throws IOException {
+			public @Nullable Implementation read(JsonReader reader) throws IOException {
 				return null;
 			}
 		});

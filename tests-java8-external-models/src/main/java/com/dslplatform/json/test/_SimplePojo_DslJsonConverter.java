@@ -14,7 +14,7 @@ public class _SimplePojo_DslJsonConverter implements Configuration {
 	};
 
 	@Override
-	public void configure(@NonNull DslJson json) {
+	public void configure(DslJson json) {
 		json.registerReader(SimplePojo.class, FAKE_READER);
 		json.registerWriter(SimplePojo.class, FAKE_WRITER);
 	}

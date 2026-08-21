@@ -1,5 +1,7 @@
 package com.dslplatform.json;
 
+import org.jspecify.annotations.NullMarked;
+
 import com.dslplatform.json.runtime.Settings;
 import org.junit.Assert;
 import org.junit.Test;
@@ -47,8 +49,8 @@ public class StringsTest {
 	}
 
 	@CompiledJson
+	@NullMarked
 	public static class NonNullableStrings {
-		@NonNull
 		private String s;
 		public String getS() { return s; }
 		public void setS(String v) { this.s = v; }

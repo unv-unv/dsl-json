@@ -1,5 +1,7 @@
 package com.dslplatform.json.models;
 
+import org.jspecify.annotations.Nullable;
+
 import com.dslplatform.json.*;
 
 import java.io.IOException;

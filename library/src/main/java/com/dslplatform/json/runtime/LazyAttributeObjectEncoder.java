@@ -1,5 +1,7 @@
 package com.dslplatform.json.runtime;
 
+import org.jspecify.annotations.Nullable;
+
 import com.dslplatform.json.*;
 
 import java.lang.reflect.Type;
@@ -20,7 +22,7 @@ class LazyAttributeObjectEncoder<T, R> implements JsonWriter.WriteObject<T> {
 			final Settings.Function<T, R> read,
 			final String name,
 			final DslJson json,
-			@Nullable final Type type) {
+			final @Nullable Type type) {
 		if (read == null) throw new IllegalArgumentException("read can't be null");
 		if (name == null || name.isEmpty()) throw new IllegalArgumentException("name can't be null");
 		if (json == null) throw new IllegalArgumentException("json can't be null");
@@ -33,7 +35,7 @@ class LazyAttributeObjectEncoder<T, R> implements JsonWriter.WriteObject<T> {
 	}
 
 	@Override
-	public void write(final JsonWriter writer, @Nullable final T value) {
+	public void write(final JsonWriter writer, final @Nullable T value) {
 		if (type != null && encoder == null) {
 			encoder = json.tryFindWriter(type);
 			if (encoder == null) {

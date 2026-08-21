@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.dslplatform.json.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public abstract class Generics {
 
@@ -49,9 +49,8 @@ public abstract class Generics {
 			return raw;
 		}
 
-		@Nullable
 		@Override
-		public Type getOwnerType() {
+		public @Nullable Type getOwnerType() {
 			return null;
 		}
 

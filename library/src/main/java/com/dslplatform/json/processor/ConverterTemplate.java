@@ -2,7 +2,7 @@ package com.dslplatform.json.processor;
 
 import com.dslplatform.json.CompiledJson;
 import com.dslplatform.json.JsonAttribute;
-import com.dslplatform.json.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
@@ -29,6 +29,20 @@ class ConverterTemplate {
 		this.code = context.code;
 		this.context = context;
 		this.enumTemplate = enumTemplate;
+	}
+
+	private static final String NULLABLE = "@org.jspecify.annotations.Nullable ";
+
+	private static String nullable(final String type) {
+		int array = type.indexOf('[');
+		if (array >= 0) {
+			return type.substring(0, array) + " " + NULLABLE + type.substring(array);
+		}
+		int generics = type.indexOf('<');
+		int lastDot = type.lastIndexOf('.', generics < 0 ? type.length() - 1 : generics);
+		return lastDot < 0
+				? NULLABLE + type
+				: type.substring(0, lastDot + 1) + NULLABLE + type.substring(lastDot + 1);
 	}
 
 	private boolean isStaticEnum(AttributeInfo attr) {
@@ -271,7 +285,7 @@ class ConverterTemplate {
 		}
 		code.append("\t\t}\n");
 		if (binding) {
-			code.append("\t\tpublic ").append(className).append(" read(final com.dslplatform.json.JsonReader reader) throws java.io.IOException {\n");
+			code.append("\t\tpublic ").append(nullable(className)).append(" read(final com.dslplatform.json.JsonReader reader) throws java.io.IOException {\n");
 			code.append("\t\t\tif (reader.wasNull()) return null;\n");
 			code.append("\t\t\treturn bind(reader, ");
 			if (si.annotatedFactory != null) {
@@ -594,7 +608,7 @@ class ConverterTemplate {
 		asFormatConverter(si, "ObjectFormatConverter", className, false);
 		writeObject(si, className, sortedAttributes(si, true));
 		List<AttributeInfo> sortedAttributes = sortedAttributes(si, false);
-		code.append("\t\tpublic ").append(className).append(" read(final com.dslplatform.json.JsonReader reader) throws java.io.IOException {\n");
+		code.append("\t\tpublic ").append(nullable(className)).append(" read(final com.dslplatform.json.JsonReader reader) throws java.io.IOException {\n");
 		code.append("\t\t\tif (reader.wasNull()) return null;\n");
 		code.append("\t\t\telse if (reader.last() != '{') throw reader.newParseError(\"Expecting '{' for object start\");\n");
 		code.append("\t\t\treader.getNextToken();\n");
@@ -658,7 +672,7 @@ class ConverterTemplate {
 			code.append("\t\tprivate static final byte[] name_").append(attr.name).append(" = \"").append(name).append("\".getBytes(java.nio.charset.StandardCharsets.UTF_8);\n");
 		}
 		code.append("\t\tpublic final void write(final com.dslplatform.json.JsonWriter writer, final ");
-		code.append(className).append(" instance) {\n");
+		code.append(nullable(className)).append(" instance) {\n");
 		code.append("\t\t\tif (instance == null) writer.writeNull();\n");
 		code.append("\t\t\telse {\n");
 		code.append("\t\t\t\twriter.writeByte((byte)'{');\n");
@@ -830,7 +844,7 @@ class ConverterTemplate {
 		asFormatConverter(si, "ArrayFormatConverter", className, false);
 		writeArray(className, sortedAttributes(si, true));
 		List<AttributeInfo> sortedAttributes = sortedAttributes(si, false);
-		code.append("\t\tpublic ").append(className).append(" read(final com.dslplatform.json.JsonReader reader) throws java.io.IOException {\n");
+		code.append("\t\tpublic ").append(nullable(className)).append(" read(final com.dslplatform.json.JsonReader reader) throws java.io.IOException {\n");
 		code.append("\t\t\tif (reader.wasNull()) return null;\n");
 		code.append("\t\t\telse if (reader.last() != '[') throw reader.newParseError(\"Expecting '[' for object start\");\n");
 		code.append("\t\t\treturn readContent(reader);\n");
@@ -888,7 +902,7 @@ class ConverterTemplate {
 
 	private void writeArray(final String className, List<AttributeInfo> sortedAttributes) throws IOException {
 		code.append("\t\tpublic final void write(final com.dslplatform.json.JsonWriter writer, final ");
-		code.append(className).append(" instance) {\n");
+		code.append(nullable(className)).append(" instance) {\n");
 		code.append("\t\t\tif (instance == null) writer.writeNull();\n");
 		code.append("\t\t\telse {\n");
 		code.append("\t\t\t\twriter.writeByte((byte)'[');\n");

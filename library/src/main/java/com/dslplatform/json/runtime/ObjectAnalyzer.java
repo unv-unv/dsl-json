@@ -1,5 +1,7 @@
 package com.dslplatform.json.runtime;
 
+import org.jspecify.annotations.Nullable;
+
 import com.dslplatform.json.*;
 import com.dslplatform.json.processor.Analysis;
 
@@ -91,7 +93,7 @@ public abstract class ObjectAnalyzer {
 		}
 
 		@Override
-		public void write(final JsonWriter writer, @Nullable final Object value) {
+		public void write(final JsonWriter writer, final @Nullable Object value) {
 			if (resolvedWriter == null) {
 				if (checkSignatureNotFound()) {
 					final JsonWriter.WriteObject tmp = json.tryFindWriter(type);
@@ -106,9 +108,8 @@ public abstract class ObjectAnalyzer {
 	}
 
 	public static final DslJson.ConverterFactory<ObjectFormatDescription> CONVERTER = new DslJson.ConverterFactory<ObjectFormatDescription>() {
-		@Nullable
 		@Override
-		public ObjectFormatDescription tryCreate(Type manifest, DslJson dslJson) {
+		public @Nullable ObjectFormatDescription tryCreate(Type manifest, DslJson dslJson) {
 			if (manifest instanceof Class<?>) {
 				return analyze(manifest, (Class<?>) manifest, dslJson);
 			}
@@ -120,8 +121,7 @@ public abstract class ObjectAnalyzer {
 		}
 	};
 
-	@Nullable
-	private static <T> ObjectFormatDescription<T, T> analyze(final Type manifest, final Class<T> raw, final DslJson json) {
+	private static <T> @Nullable ObjectFormatDescription<T, T> analyze(final Type manifest, final Class<T> raw, final DslJson json) {
 		if (raw.isArray()
 				|| Object.class == manifest
 				|| Collection.class.isAssignableFrom(raw)
@@ -197,7 +197,7 @@ public abstract class ObjectAnalyzer {
 		return false;
 	}
 
-	private static @Nullable <T> InstanceFactory pickCtorFactory(Class<?> raw, DslJson<T> json) {
+	private static <T> @Nullable InstanceFactory pickCtorFactory(Class<?> raw, DslJson<T> json) {
 		if (json.context == null) return null;
 		final Map<Class<? extends Annotation>, Boolean> creatorMarkers = json.getRegisteredCreatorMarkers();
 		ArrayList<Constructor<?>> matchedCtors = null;
@@ -250,7 +250,7 @@ public abstract class ObjectAnalyzer {
 		};
 	}
 
-	private static @Nullable <T> InstanceFactory pickMarkedFactory(Class<?> raw, DslJson<T> json) {
+	private static <T> @Nullable InstanceFactory pickMarkedFactory(Class<?> raw, DslJson<T> json) {
 		final Map<Class<? extends Annotation>, Boolean> creatorMarkers = json.getRegisteredCreatorMarkers();
 		if (creatorMarkers.isEmpty()) return null;
 		for (final Method factory : raw.getDeclaredMethods()) {

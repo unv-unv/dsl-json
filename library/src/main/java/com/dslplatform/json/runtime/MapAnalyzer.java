@@ -1,5 +1,7 @@
 package com.dslplatform.json.runtime;
 
+import org.jspecify.annotations.Nullable;
+
 import com.dslplatform.json.*;
 
 import java.io.IOException;
@@ -27,17 +29,15 @@ public abstract class MapAnalyzer {
 	}
 
 	private static final JsonReader.ReadObject<String> stringReader = new JsonReader.ReadObject<String>() {
-		@Nullable
 		@Override
-		public String read(JsonReader reader) throws IOException {
+		public @Nullable String read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : reader.readString();
 		}
 	};
 
 	public static final DslJson.ConverterFactory<MapDecoder> READER = new DslJson.ConverterFactory<MapDecoder>() {
-		@Nullable
 		@Override
-		public MapDecoder tryCreate(Type manifest, DslJson dslJson) {
+		public @Nullable MapDecoder tryCreate(Type manifest, DslJson dslJson) {
 			if (manifest instanceof Class<?>) {
 				return analyzeDecoder(manifest, Object.class, Object.class, (Class<?>) manifest, dslJson);
 			}
@@ -52,9 +52,8 @@ public abstract class MapAnalyzer {
 	};
 
 	public static final DslJson.ConverterFactory<MapEncoder> WRITER = new DslJson.ConverterFactory<MapEncoder>() {
-		@Nullable
 		@Override
-		public MapEncoder tryCreate(Type manifest, DslJson dslJson) {
+		public @Nullable MapEncoder tryCreate(Type manifest, DslJson dslJson) {
 			if (manifest instanceof Class<?>) {
 				return analyzeEncoder(manifest, Object.class, Object.class, (Class<?>) manifest, dslJson);
 			}
@@ -77,8 +76,7 @@ public abstract class MapAnalyzer {
 		}
 	}
 
-	@Nullable
-	private static MapDecoder analyzeDecoder(final Type manifest, final Type key, final Type value, final Class<?> map, final DslJson json) {
+	private static @Nullable MapDecoder analyzeDecoder(final Type manifest, final Type key, final Type value, final Class<?> map, final DslJson json) {
 		if (!Map.class.isAssignableFrom(map)) return null;
 		final Callable newInstance;
 		if (!map.isInterface() && canNew(map)) {
@@ -113,8 +111,7 @@ public abstract class MapAnalyzer {
 		return decoder;
 	}
 
-	@Nullable
-	private static MapEncoder analyzeEncoder(final Type manifest, final Type key, final Type value, final Class<?> map, final DslJson json) {
+	private static @Nullable MapEncoder analyzeEncoder(final Type manifest, final Type key, final Type value, final Class<?> map, final DslJson json) {
 		if (!Map.class.isAssignableFrom(map)) return null;
 		final JsonWriter.WriteObject<?> keyWriter = Object.class == key ? null : json.tryFindWriter(key);
 		final JsonWriter.WriteObject<?> valueWriter = Object.class == value ? null : json.tryFindWriter(value);

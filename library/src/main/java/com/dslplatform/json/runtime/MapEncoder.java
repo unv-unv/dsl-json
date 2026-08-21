@@ -1,5 +1,7 @@
 package com.dslplatform.json.runtime;
 
+import org.jspecify.annotations.Nullable;
+
 import com.dslplatform.json.*;
 
 import java.util.Map;
@@ -14,8 +16,8 @@ public final class MapEncoder<K, V, T extends Map<K, V>> implements JsonWriter.W
 	public MapEncoder(
 			final DslJson json,
 			final boolean checkForConversionToString,
-			@Nullable final JsonWriter.WriteObject<K> keyEncoder,
-			@Nullable final JsonWriter.WriteObject<V> valueEncoder) {
+			final JsonWriter.@Nullable WriteObject<K> keyEncoder,
+			final JsonWriter.@Nullable WriteObject<V> valueEncoder) {
 		if (json == null) throw new IllegalArgumentException("json can't be null");
 		this.json = json;
 		this.checkForConversionToString = checkForConversionToString;

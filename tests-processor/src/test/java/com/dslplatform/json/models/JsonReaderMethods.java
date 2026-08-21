@@ -1,5 +1,7 @@
 package com.dslplatform.json.models;
 
+import org.jspecify.annotations.Nullable;
+
 import com.dslplatform.json.*;
 
 import java.io.IOException;
@@ -16,9 +18,8 @@ public class JsonReaderMethods {
 	public static class ImplProper1 {
 
 		public static final JsonReader.ReadObject<ImplProper1> JSON_READER = new JsonReader.ReadObject<ImplProper1>() {
-			@Nullable
 			@Override
-			public ImplProper1 read(JsonReader reader) throws IOException {
+			public @Nullable ImplProper1 read(JsonReader reader) throws IOException {
 				return null;
 			}
 		};
@@ -50,9 +51,8 @@ public class JsonReaderMethods {
 	public static class ImplProper4 {
 
 		public static final JsonReader.ReadObject<ImplProper4> JSON_READER = new JsonReader.ReadObject<ImplProper4>() {
-			@Nullable
 			@Override
-			public ImplProper4 read(JsonReader reader) throws IOException {
+			public @Nullable ImplProper4 read(JsonReader reader) throws IOException {
 				return null;
 			}
 		};

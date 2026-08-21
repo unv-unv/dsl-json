@@ -1,5 +1,7 @@
 package com.dslplatform.json.processor;
 
+import org.jspecify.annotations.Nullable;
+
 import com.dslplatform.json.*;
 
 import javax.annotation.processing.Messager;
@@ -1466,8 +1468,7 @@ public class Analysis {
 		}
 	}
 
-	@Nullable
-	private String validateDeserializeAs(TypeElement source, TypeElement target) {
+	private @Nullable String validateDeserializeAs(TypeElement source, TypeElement target) {
 		if (target.getModifiers().contains(Modifier.PRIVATE)) {
 			return "can't be private";
 		} else if (requiresPublic(target) && !target.getModifiers().contains(Modifier.PUBLIC)) {
@@ -1487,8 +1488,7 @@ public class Analysis {
 		}
 	}
 
-	@Nullable
-	private List<ExecutableElement> findMatchingConstructors(Element element, boolean isMixin) {
+	private @Nullable List<ExecutableElement> findMatchingConstructors(Element element, boolean isMixin) {
 		if (element.getKind() == ElementKind.INTERFACE
 				|| element.getKind() == ElementKind.ENUM
 				|| !isMixin && element.getKind() == ElementKind.CLASS && element.getModifiers().contains(Modifier.ABSTRACT)) {
@@ -1506,8 +1506,7 @@ public class Analysis {
 		return matchingCtors;
 	}
 
-	@Nullable
-	private ExecutableElement findAnnotatedConstructor(Element element, DeclaredType discoveredBy) {
+	private @Nullable ExecutableElement findAnnotatedConstructor(Element element, DeclaredType discoveredBy) {
 		if (element.getKind() == ElementKind.INTERFACE
 				|| element.getKind() == ElementKind.ENUM
 				|| element.getKind() == ElementKind.CLASS && element.getModifiers().contains(Modifier.ABSTRACT)) {
@@ -1547,8 +1546,7 @@ public class Analysis {
 		return null;
 	}
 
-	@Nullable
-	private ExecutableElement findAnnotatedFactory(
+	private @Nullable ExecutableElement findAnnotatedFactory(
 			Element element,
 			DeclaredType discoveredBy,
 			@Nullable ExecutableElement factory,
@@ -1609,8 +1607,7 @@ public class Analysis {
 		return factory;
 	}
 
-	@Nullable
-	private BuilderInfo findBuilder(Element element, DeclaredType discoveredBy, @Nullable ExecutableElement builder) {
+	private @Nullable BuilderInfo findBuilder(Element element, DeclaredType discoveredBy, @Nullable ExecutableElement builder) {
 		if (element.getKind() == ElementKind.ENUM) {
 			return null;
 		}
@@ -1749,8 +1746,7 @@ public class Analysis {
 		return result;
 	}
 
-	@Nullable
-	private Element findEnumConstantNameSource(TypeElement element) {
+	private @Nullable Element findEnumConstantNameSource(TypeElement element) {
 		Element nameSource = null;
 		for (Element enclosedElement : element.getEnclosedElements()) {
 			if (enclosedElement.getAnnotation(JsonValue.class) != null) {
@@ -1797,8 +1793,7 @@ public class Analysis {
 		return false;
 	}
 
-	@Nullable
-	private String extractReturnType(Element element) {
+	private @Nullable String extractReturnType(Element element) {
 		switch (element.getKind()) {
 			case FIELD: return element.asType().toString();
 			case METHOD: return ((ExecutableElement) element).getReturnType().toString();
@@ -1811,8 +1806,7 @@ public class Analysis {
 		messager.printMessage(Diagnostic.Kind.ERROR, message, element);
 	}
 
-	@Nullable
-	private String jsonObjectReaderPath(Element el, boolean includeErrors) {
+	private @Nullable String jsonObjectReaderPath(Element el, boolean includeErrors) {
 		if (!(el instanceof TypeElement)) return null;
 		TypeElement element = (TypeElement)el;
 		boolean isJsonObject = false;
@@ -1901,11 +1895,11 @@ public class Analysis {
 	}
 
 	private static class AccessElements {
-		@Nullable public final ExecutableElement read;
-		@Nullable public final ExecutableElement write;
-		@Nullable public final VariableElement field;
-		@Nullable public final VariableElement arg;
-		@Nullable public final AnnotationMirror annotation;
+		public final @Nullable ExecutableElement read;
+		public final @Nullable ExecutableElement write;
+		public final @Nullable VariableElement field;
+		public final @Nullable VariableElement arg;
+		public final @Nullable AnnotationMirror annotation;
 
 		private AccessElements(
 				@Nullable ExecutableElement read,
@@ -2403,8 +2397,7 @@ public class Analysis {
 		}
 	}
 
-	@Nullable
-	private String[] getAlternativeNames(AnnotationMirror dslAnn) {
+	private String @Nullable [] getAlternativeNames(AnnotationMirror dslAnn) {
 		Map<? extends ExecutableElement, ? extends AnnotationValue> values = dslAnn.getElementValues();
 		for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> ee : values.entrySet()) {
 			if (ee.getKey().toString().equals("alternativeNames()")) {
@@ -2451,8 +2444,7 @@ public class Analysis {
 		return -1;
 	}
 
-	@Nullable
-	private AnnotationMirror annotation(
+	private @Nullable AnnotationMirror annotation(
 			@Nullable ExecutableElement read,
 			@Nullable ExecutableElement write,
             @Nullable VariableElement field,
@@ -2485,8 +2477,7 @@ public class Analysis {
 		return false;
 	}
 
-	@Nullable
-	private AnnotationMirror scanClassForAnnotation(TypeElement element, DeclaredType annotationType, @Nullable ExecutableElement custom) {
+	private @Nullable AnnotationMirror scanClassForAnnotation(TypeElement element, DeclaredType annotationType, @Nullable ExecutableElement custom) {
 		AnnotationMirror target = custom != null ? getAnnotation(custom, annotationType) : null;
 		if (target != null) return target;
 		target = getAnnotation(element, annotationType);
@@ -2502,8 +2493,7 @@ public class Analysis {
 		return null;
 	}
 
-	@Nullable
-	private AnnotationMirror getAnnotation(Element element, DeclaredType annotationType) {
+	private @Nullable AnnotationMirror getAnnotation(Element element, DeclaredType annotationType) {
 		for (AnnotationMirror mirror : element.getAnnotationMirrors()) {
 			if (types.isSameType(mirror.getAnnotationType(), annotationType)) {
 				return mirror;
@@ -2521,7 +2511,7 @@ public class Analysis {
 					return val != null && !((Boolean) val);
 				}
 			}
-			return false;
+			return isNonNullByJSpecify(property, field);
 		}
 		for (AnnotationMirror ann : property.getAnnotationMirrors()) {
 			Boolean match = matchCustomBoolean(ann, alternativeNonNullable);
@@ -2533,11 +2523,44 @@ public class Analysis {
 				if (match != null) return match;
 			}
 		}
+		return isNonNullByJSpecify(property, field);
+	}
+
+	private static boolean isNonNullByJSpecify(Element property, @Nullable VariableElement field) {
+		if (!isNullMarked(property)) return false;
+		return !isJSpecifyNullable(property) && (field == null || !isJSpecifyNullable(field));
+	}
+
+	private static final String JSPECIFY_NULLABLE = "org.jspecify.annotations.Nullable";
+	private static final String JSPECIFY_NULL_MARKED = "org.jspecify.annotations.NullMarked";
+	private static final String JSPECIFY_NULL_UNMARKED = "org.jspecify.annotations.NullUnmarked";
+
+	private static boolean isNullMarked(Element element) {
+		for (Element current = element; current != null; current = current.getEnclosingElement()) {
+			for (AnnotationMirror ann : current.getAnnotationMirrors()) {
+				String name = ann.getAnnotationType().toString();
+				if (JSPECIFY_NULL_MARKED.equals(name)) return true;
+				if (JSPECIFY_NULL_UNMARKED.equals(name)) return false;
+			}
+		}
 		return false;
 	}
 
-	@Nullable
-	private static TypeElement deserializeAs(AnnotationMirror annotation) {
+	private static boolean isJSpecifyNullable(Element element) {
+		if (containsNullable(element.getAnnotationMirrors())) return true;
+		TypeMirror type = element.asType();
+		if (type instanceof ExecutableType) type = ((ExecutableType) type).getReturnType();
+		return containsNullable(type.getAnnotationMirrors());
+	}
+
+	private static boolean containsNullable(List<? extends AnnotationMirror> annotations) {
+		for (AnnotationMirror ann : annotations) {
+			if (JSPECIFY_NULLABLE.equals(ann.getAnnotationType().toString())) return true;
+		}
+		return false;
+	}
+
+	private static @Nullable TypeElement deserializeAs(AnnotationMirror annotation) {
 		Map<? extends ExecutableElement, ? extends AnnotationValue> values = annotation.getElementValues();
 		for (ExecutableElement ee : values.keySet()) {
 			if (ee.toString().equals("deserializeAs()")) {
@@ -2550,8 +2573,7 @@ public class Analysis {
 
 	private static final Map<String, NamingStrategy> namingCache = new HashMap<String, NamingStrategy>();
 
-	@Nullable
-	private NamingStrategy namingStrategy(TypeElement element, @Nullable AnnotationMirror annotation) {
+	private @Nullable NamingStrategy namingStrategy(TypeElement element, @Nullable AnnotationMirror annotation) {
 		if (annotation == null) return null;
 		Map<? extends ExecutableElement, ? extends AnnotationValue> values = annotation.getElementValues();
 		String strategyName = null;
@@ -2638,13 +2660,11 @@ public class Analysis {
 		return defaultValue;
 	}
 
-	@Nullable
-	private CompiledJson.Behavior onUnknownValue(@Nullable AnnotationMirror annotation) {
+	private CompiledJson.@Nullable Behavior onUnknownValue(@Nullable AnnotationMirror annotation) {
 		return enumAnnotationElementValue(annotation, "onUnknown()", CompiledJson.Behavior.class);
 	}
 
-	@Nullable
-	private CompiledJson.TypeSignature typeSignatureValue(@Nullable AnnotationMirror annotation) {
+	private CompiledJson.@Nullable TypeSignature typeSignatureValue(@Nullable AnnotationMirror annotation) {
 		return enumAnnotationElementValue(annotation, "typeSignature()", CompiledJson.TypeSignature.class);
 	}
 
@@ -2679,8 +2699,7 @@ public class Analysis {
 		return new CompiledJson.Format[]{CompiledJson.Format.OBJECT};
 	}
 
-	@Nullable
-	private static <T extends Enum<T>> T enumAnnotationElementValue(@Nullable AnnotationMirror annotation,
+	private static <T extends Enum<T>> @Nullable T enumAnnotationElementValue(@Nullable AnnotationMirror annotation,
 																	String elementName, Class<T> enumClass) {
 		if (annotation == null) return null;
 		Map<? extends ExecutableElement, ? extends AnnotationValue> values = annotation.getElementValues();
@@ -2705,13 +2724,11 @@ public class Analysis {
 		return false;
 	}
 
-	@Nullable
-	private TypeMirror findConverter(Element property) {
+	private @Nullable TypeMirror findConverter(Element property) {
 		return findConverter(getAnnotation(property, attributeType));
 	}
 
-	@Nullable
-	private TypeMirror findConverter(@Nullable AnnotationMirror dslAnn) {
+	private @Nullable TypeMirror findConverter(@Nullable AnnotationMirror dslAnn) {
 		if (dslAnn == null) return null;
 		Map<? extends ExecutableElement, ? extends AnnotationValue> values = dslAnn.getElementValues();
 		for (ExecutableElement ee : values.keySet()) {
@@ -2723,8 +2740,7 @@ public class Analysis {
 		return null;
 	}
 
-	@Nullable
-	private String findNameAlias(Element property, @Nullable VariableElement field, @Nullable AnnotationMirror dslAnn, String member) {
+	private @Nullable String findNameAlias(Element property, @Nullable VariableElement field, @Nullable AnnotationMirror dslAnn, String member) {
 		if (dslAnn != null) {
 			Map<? extends ExecutableElement, ? extends AnnotationValue> values = dslAnn.getElementValues();
 			for (ExecutableElement ee : values.keySet()) {
@@ -2759,8 +2775,7 @@ public class Analysis {
 		return false;
 	}
 
-	@Nullable
-	private static Boolean matchCustomBoolean(
+	private static @Nullable Boolean matchCustomBoolean(
 			AnnotationMirror ann,
 			Map<String, List<AnnotationMapping<Boolean>>> alternatives) {
 		String name = ann.getAnnotationType().toString();
@@ -2781,8 +2796,7 @@ public class Analysis {
 		return null;
 	}
 
-	@Nullable
-	private static String matchCustomString(
+	private static @Nullable String matchCustomString(
 			AnnotationMirror ann,
 			Map<String, String> alternatives) {
 		String value = alternatives.get(ann.getAnnotationType().toString());
@@ -2800,8 +2814,7 @@ public class Analysis {
 		return null;
 	}
 
-	@Nullable
-	private static Integer matchCustomInteger(
+	private static @Nullable Integer matchCustomInteger(
 			AnnotationMirror ann,
 			Map<String, String> alternatives) {
 		String value = alternatives.get(ann.getAnnotationType().toString());

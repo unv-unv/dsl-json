@@ -1,5 +1,7 @@
 package com.dslplatform.json;
 
+import org.jspecify.annotations.Nullable;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URI;
@@ -9,16 +11,14 @@ import java.util.Collection;
 public abstract class NetConverter {
 
 	private static final JsonReader.ReadObject<URI> URI_READER = new JsonReader.ReadObject<URI>() {
-		@Nullable
 		@Override
-		public URI read(JsonReader reader) throws IOException {
+		public @Nullable URI read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : deserializeUri(reader);
 		}
 	};
 	private static final JsonReader.ReadObject<InetAddress> ADDRESS_READER = new JsonReader.ReadObject<InetAddress>() {
-		@Nullable
 		@Override
-		public InetAddress read(JsonReader reader) throws IOException {
+		public @Nullable InetAddress read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : deserializeIp(reader);
 		}
 	};
@@ -30,7 +30,7 @@ public abstract class NetConverter {
 		json.registerWriter(InetAddress.class, (writer, value) -> serializeNullable(value, writer));
 	}
 
-	public static void serializeNullable(@Nullable final URI value, final JsonWriter sw) {
+	public static void serializeNullable(final @Nullable URI value, final JsonWriter sw) {
 		if (value == null) {
 			sw.writeNull();
 		} else {
@@ -64,7 +64,7 @@ public abstract class NetConverter {
 		reader.deserializeNullableCollection(URI_READER, res);
 	}
 
-	public static void serializeNullable(@Nullable final InetAddress value, final JsonWriter sw) {
+	public static void serializeNullable(final @Nullable InetAddress value, final JsonWriter sw) {
 		if (value == null) {
 			sw.writeNull();
 		} else {

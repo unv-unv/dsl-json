@@ -1,5 +1,7 @@
 package com.dslplatform.json.runtime;
 
+import org.jspecify.annotations.Nullable;
+
 import com.dslplatform.json.*;
 
 import java.util.Optional;
@@ -11,7 +13,7 @@ public final class OptionalEncoder<T> implements JsonWriter.WriteObject<Optional
 
 	public OptionalEncoder(
 			final DslJson json,
-			@Nullable final JsonWriter.WriteObject<T> encoder) {
+			final JsonWriter.@Nullable WriteObject<T> encoder) {
 		if (json == null) throw new IllegalArgumentException("json can't be null");
 		this.json = json;
 		this.encoder = encoder;

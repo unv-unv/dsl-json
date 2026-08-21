@@ -1,5 +1,7 @@
 package com.dslplatform.json.models;
 
+import org.jspecify.annotations.Nullable;
+
 import com.dslplatform.json.*;
 
 import java.io.IOException;
@@ -18,8 +20,7 @@ public class InvalidConveterErrors {
 	@JsonConverter(target = Character.class)
 	public static abstract class CharConverter {
 		public static final JsonReader.ReadObject<Character> JSON_READER = new JsonReader.ReadObject<Character>() {
-			@Nullable
-			public Character read(JsonReader reader) throws IOException {
+			public @Nullable Character read(JsonReader reader) throws IOException {
 				return null;
 			}
 		};

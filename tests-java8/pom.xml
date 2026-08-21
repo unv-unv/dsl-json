@@ -83,6 +83,7 @@
 					<source>1.8</source>
 					<target>1.8</target>
 					<useIncrementalCompilation>false</useIncrementalCompilation>
+					<proc>full</proc>
 					<compilerArguments>
 						<Adsljson.unknown>WARNING</Adsljson.unknown>
 					</compilerArguments>

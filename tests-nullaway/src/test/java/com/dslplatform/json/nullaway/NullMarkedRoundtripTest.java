@@ -3,6 +3,7 @@ package com.dslplatform.json.nullaway;
 import com.dslplatform.json.CompiledJson;
 import com.dslplatform.json.DslJson;
 import com.dslplatform.json.JsonAttribute;
+import com.dslplatform.json.ParsingException;
 import org.jspecify.annotations.Nullable;
 import org.junit.Assert;
 import org.junit.Test;
@@ -28,8 +29,17 @@ public class NullMarkedRoundtripTest {
 		Model model = new Model("abc", null);
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		dslJson.serialize(model, os);
-		Assert.assertEquals("{\"name\":\"abc\"}", os.toString(StandardCharsets.UTF_8));
+		Assert.assertEquals("{\"name\":\"abc\",\"comment\":null}", os.toString(StandardCharsets.UTF_8));
 		Assert.assertEquals(model, deserialize(os.toByteArray()));
+	}
+
+	@Test
+	public void nullIntoNonNullPropertyIsRejected() {
+		byte[] json = "{\"name\":null}".getBytes(StandardCharsets.UTF_8);
+		ParsingException ex = Assert.assertThrows(
+				ParsingException.class,
+				() -> dslJson.deserialize(Model.class, new ByteArrayInputStream(json)));
+		Assert.assertTrue(String.valueOf(ex.getMessage()).contains("Property 'name' is not allowed to be null"));
 	}
 
 	@Test

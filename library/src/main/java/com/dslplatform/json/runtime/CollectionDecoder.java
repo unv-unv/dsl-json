@@ -2,7 +2,7 @@ package com.dslplatform.json.runtime;
 
 import com.dslplatform.json.ConfigurationException;
 import com.dslplatform.json.JsonReader;
-import com.dslplatform.json.Nullable;
+import org.jspecify.annotations.Nullable;
 import com.dslplatform.json.ParsingException;
 
 import java.io.IOException;
@@ -28,9 +28,8 @@ public final class CollectionDecoder<E, T extends Collection<E>> implements Json
 		this.decoder = decoder;
 	}
 
-	@Nullable
 	@Override
-	public T read(final JsonReader reader) throws IOException {
+	public @Nullable T read(final JsonReader reader) throws IOException {
 		if (reader.wasNull()) return null;
 		if (reader.last() != '[') {
 			throw reader.newParseError("Expecting '[' for collection start");

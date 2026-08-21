@@ -1,5 +1,7 @@
 package com.dslplatform.json.runtime;
 
+import org.jspecify.annotations.Nullable;
+
 import com.dslplatform.json.*;
 
 import java.io.IOException;
@@ -58,9 +60,8 @@ public final class ObjectFormatDescription<B, T> extends WriteDescription<T> imp
 		this.endError = String.format("Expecting '}' or ',' while decoding %s", Reflection.typeDescription(manifest));
 	}
 
-	@Nullable
 	@Override
-	public T read(final JsonReader reader) throws IOException {
+	public @Nullable T read(final JsonReader reader) throws IOException {
 		if (reader.wasNull()) return null;
 		else if (reader.last() != '{') {
 			throw reader.newParseError(startError);

@@ -1,7 +1,7 @@
 package com.dslplatform.json.runtime;
 
 import com.dslplatform.json.JsonWriter;
-import com.dslplatform.json.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -17,7 +17,7 @@ class AttributeObjectNonDefaultEncoder<T, R> implements JsonWriter.WriteObject<T
 			final Settings.Function<T, R> read,
 			final String name,
 			final JsonWriter.WriteObject<R> encoder,
-			@Nullable final R defaultValue) {
+			final @Nullable R defaultValue) {
 		if (read == null) throw new IllegalArgumentException("read can't be null");
 		if (name == null || name.isEmpty()) throw new IllegalArgumentException("name can't be null");
 		if (encoder == null) throw new IllegalArgumentException("encoder can't be null");
@@ -28,7 +28,7 @@ class AttributeObjectNonDefaultEncoder<T, R> implements JsonWriter.WriteObject<T
 	}
 
 	@Override
-	public void write(final JsonWriter writer, @Nullable final T value) {
+	public void write(final JsonWriter writer, final @Nullable T value) {
 		final R attr = read.apply(value);
 		if (attr != null && attr != defaultValue) {
 			writer.writeAscii(quotedName);

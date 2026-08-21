@@ -2,7 +2,7 @@ package com.dslplatform.json.runtime;
 
 import com.dslplatform.json.JsonReader;
 import com.dslplatform.json.JsonWriter;
-import com.dslplatform.json.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -54,8 +54,7 @@ public final class ImmutableDescription<T> extends WriteDescription<T> implement
 		this.endError = String.format("Expecting '}' or ',' while decoding %s", Reflection.typeDescription(manifest));
 	}
 
-	@Nullable
-	public T read(final JsonReader reader) throws IOException {
+	public @Nullable T read(final JsonReader reader) throws IOException {
 		if (reader.wasNull()) return null;
 		else if (reader.last() != '{') {
 			throw reader.newParseError(startError);
@@ -87,8 +86,7 @@ public final class ImmutableDescription<T> extends WriteDescription<T> implement
 		return finalChecks(args, reader, currentMandatory);
 	}
 
-	@Nullable
-	private T readObjectSlow(final Object[] args, final JsonReader reader, long currentMandatory) throws IOException {
+	private @Nullable T readObjectSlow(final Object[] args, final JsonReader reader, long currentMandatory) throws IOException {
 		boolean processed = false;
 		final int oldHash = reader.getLastHash();
 		for (final DecodePropertyInfo<JsonReader.ReadObject> ri : decoders) {
@@ -131,8 +129,7 @@ public final class ImmutableDescription<T> extends WriteDescription<T> implement
 		return finalChecks(args, reader, currentMandatory);
 	}
 
-	@Nullable
-	private T finalChecks(Object[] args, JsonReader reader, long currentMandatory) throws IOException {
+	private @Nullable T finalChecks(Object[] args, JsonReader reader, long currentMandatory) throws IOException {
 		if (reader.last() != '}') {
 			if (reader.last() != ',') {
 				throw reader.newParseError(endError);

@@ -1,7 +1,7 @@
 package com.dslplatform.json.processor;
 
 import com.dslplatform.json.CompiledJson;
-import com.dslplatform.json.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
@@ -153,8 +153,7 @@ class EnumTemplate {
 		code.append("\t}\n");
 	}
 
-	@Nullable
-	private static String extractReturnType(@Nullable Element element) {
+	private static @Nullable String extractReturnType(@Nullable Element element) {
 		if (element == null) return null;
 		switch (element.getKind()) {
 			case FIELD: return Analysis.objectName(element.asType().toString());

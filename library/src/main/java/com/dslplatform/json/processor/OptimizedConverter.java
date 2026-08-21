@@ -1,14 +1,13 @@
 package com.dslplatform.json.processor;
 
-import com.dslplatform.json.Nullable;
+import org.jspecify.annotations.Nullable;
 
 final class OptimizedConverter {
 	public final String encoderField;
 	private final String nonNullableEncoderMethod;
 	public final String decoderField;
 	private final String nonNullableDecoderMethod;
-	@Nullable
-	final String defaultValue;
+	final @Nullable String defaultValue;
 
 	OptimizedConverter(String converter, String encoderField, String nonNullableEncoderMethod, String decoderField) {
 		this(converter, encoderField, nonNullableEncoderMethod, decoderField, null, null);

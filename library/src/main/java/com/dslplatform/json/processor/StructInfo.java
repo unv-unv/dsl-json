@@ -1,7 +1,7 @@
 package com.dslplatform.json.processor;
 
 import com.dslplatform.json.CompiledJson;
-import com.dslplatform.json.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import javax.lang.model.element.*;
 import javax.lang.model.type.DeclaredType;
@@ -60,15 +60,15 @@ public class StructInfo {
 			@Nullable ExecutableElement annotatedFactory,
 			@Nullable BuilderInfo builder,
 			@Nullable AnnotationMirror annotation,
-			@Nullable CompiledJson.Behavior onUnknown,
-			@Nullable CompiledJson.TypeSignature typeSignature,
+			CompiledJson.@Nullable Behavior onUnknown,
+			CompiledJson.@Nullable TypeSignature typeSignature,
 			CompiledJson.ObjectFormatPolicy objectFormatPolicy,
 			@Nullable TypeElement deserializeAs,
 			@Nullable String discriminator,
 			@Nullable String deserializeName,
 			@Nullable Element enumConstantNameSource,
 			@Nullable NamingStrategy namingStrategy,
-			@Nullable CompiledJson.Format[] formats,
+			CompiledJson.Format @Nullable [] formats,
 			Map<String, TypeMirror> genericSignatures) {
 		this.element = element;
 		this.discoveredBy = discoveredBy;
@@ -153,8 +153,7 @@ public class StructInfo {
 		return names;
 	}
 
-	@Nullable
-	public ExecutableElement selectedConstructor() {
+	public @Nullable ExecutableElement selectedConstructor() {
 		return selectedConstructor;
 	}
 
@@ -165,8 +164,7 @@ public class StructInfo {
 		}
 	}
 
-	@Nullable
-	public StructInfo getParent() {
+	public @Nullable StructInfo getParent() {
 		return inheritsFrom;
 	}
 
@@ -264,8 +262,7 @@ public class StructInfo {
 	}
 
 	private StructInfo deserializeTarget;
-	@Nullable
-	public StructInfo getDeserializeTarget() { return deserializeTarget; }
+	public @Nullable StructInfo getDeserializeTarget() { return deserializeTarget; }
 	public void setDeserializeTarget(@Nullable StructInfo value) { deserializeTarget = value; }
 
 	public String pathDescription() {

@@ -1,5 +1,7 @@
 package com.dslplatform.json;
 
+import org.jspecify.annotations.Nullable;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -33,24 +35,21 @@ public abstract class NumberConverter {
 	};
 
 	public static final JsonReader.ReadObject<Double> DOUBLE_READER = new JsonReader.ReadObject<Double>() {
-		@Nullable
 		@Override
-		public Double read(JsonReader reader) throws IOException {
+		public @Nullable Double read(JsonReader reader) throws IOException {
 			return deserializeDouble(reader);
 		}
 	};
 	public static final JsonReader.ReadObject<Double> NULLABLE_DOUBLE_READER = new JsonReader.ReadObject<Double>() {
-		@Nullable
 		@Override
-		public Double read(JsonReader reader) throws IOException {
+		public @Nullable Double read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : deserializeDouble(reader);
 		}
 	};
 	public static final JsonWriter.WriteObject<Double> DOUBLE_WRITER = (writer, value) -> serializeNullable(value, writer);
 	public static final JsonReader.ReadObject<double[]> DOUBLE_ARRAY_READER = new JsonReader.ReadObject<double[]>() {
-		@Nullable
 		@Override
-		public double[] read(JsonReader reader) throws IOException {
+		public double @Nullable [] read(JsonReader reader) throws IOException {
 			if (reader.wasNull()) return null;
 			if (reader.last() != '[') throw reader.newParseError("Expecting '[' for double array start");
 			reader.getNextToken();
@@ -61,17 +60,15 @@ public abstract class NumberConverter {
 
 	public static final JsonReader.ReadObject<Float> FLOAT_READER = reader -> deserializeFloat(reader);
 	public static final JsonReader.ReadObject<Float> NULLABLE_FLOAT_READER = new JsonReader.ReadObject<Float>() {
-		@Nullable
 		@Override
-		public Float read(JsonReader reader) throws IOException {
+		public @Nullable Float read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : deserializeFloat(reader);
 		}
 	};
 	public static final JsonWriter.WriteObject<Float> FLOAT_WRITER = (writer, value) -> serializeNullable(value, writer);
 	public static final JsonReader.ReadObject<float[]> FLOAT_ARRAY_READER = new JsonReader.ReadObject<float[]>() {
-		@Nullable
 		@Override
-		public float[] read(JsonReader reader) throws IOException {
+		public float @Nullable [] read(JsonReader reader) throws IOException {
 			if (reader.wasNull()) return null;
 			if (reader.last() != '[') throw reader.newParseError("Expecting '[' for float array start");
 			reader.getNextToken();
@@ -81,17 +78,15 @@ public abstract class NumberConverter {
 	public static final JsonWriter.WriteObject<float[]> FLOAT_ARRAY_WRITER = (writer, value) -> serialize(value, writer);
 	public static final JsonReader.ReadObject<Integer> INT_READER = reader -> deserializeInt(reader);
 	public static final JsonReader.ReadObject<Integer> NULLABLE_INT_READER = new JsonReader.ReadObject<Integer>() {
-		@Nullable
 		@Override
-		public Integer read(JsonReader reader) throws IOException {
+		public @Nullable Integer read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : deserializeInt(reader);
 		}
 	};
 	public static final JsonWriter.WriteObject<Integer> INT_WRITER = (writer, value) -> serializeNullable(value, writer);
 	public static final JsonReader.ReadObject<int[]> INT_ARRAY_READER = new JsonReader.ReadObject<int[]>() {
-		@Nullable
 		@Override
-		public int[] read(JsonReader reader) throws IOException {
+		public int @Nullable [] read(JsonReader reader) throws IOException {
 			if (reader.wasNull()) return null;
 			if (reader.last() != '[') throw reader.newParseError("Expecting '[' for int array start");
 			reader.getNextToken();
@@ -101,9 +96,8 @@ public abstract class NumberConverter {
 	public static final JsonWriter.WriteObject<int[]> INT_ARRAY_WRITER = (writer, value) -> serialize(value, writer);
 	public static final JsonReader.ReadObject<Short> SHORT_READER = reader -> deserializeShort(reader);
 	public static final JsonReader.ReadObject<Short> NULLABLE_SHORT_READER = new JsonReader.ReadObject<Short>() {
-		@Nullable
 		@Override
-		public Short read(JsonReader reader) throws IOException {
+		public @Nullable Short read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : deserializeShort(reader);
 		}
 	};
@@ -112,9 +106,8 @@ public abstract class NumberConverter {
 		else serialize(value.intValue(), writer);
 	};
 	public static final JsonReader.ReadObject<short[]> SHORT_ARRAY_READER = new JsonReader.ReadObject<short[]>() {
-		@Nullable
 		@Override
-		public short[] read(JsonReader reader) throws IOException {
+		public short @Nullable [] read(JsonReader reader) throws IOException {
 			if (reader.wasNull()) return null;
 			if (reader.last() != '[') throw reader.newParseError("Expecting '[' for short array start");
 			reader.getNextToken();
@@ -125,17 +118,15 @@ public abstract class NumberConverter {
 
 	public static final JsonReader.ReadObject<Long> LONG_READER = reader -> deserializeLong(reader);
 	public static final JsonReader.ReadObject<Long> NULLABLE_LONG_READER = new JsonReader.ReadObject<Long>() {
-		@Nullable
 		@Override
-		public Long read(JsonReader reader) throws IOException {
+		public @Nullable Long read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : deserializeLong(reader);
 		}
 	};
 	public static final JsonWriter.WriteObject<Long> LONG_WRITER = (writer, value) -> serializeNullable(value, writer);
 	public static final JsonReader.ReadObject<long[]> LONG_ARRAY_READER = new JsonReader.ReadObject<long[]>() {
-		@Nullable
 		@Override
-		public long[] read(JsonReader reader) throws IOException {
+		public long @Nullable [] read(JsonReader reader) throws IOException {
 			if (reader.wasNull()) return null;
 			if (reader.last() != '[') throw reader.newParseError("Expecting '[' for long array start");
 			reader.getNextToken();
@@ -144,9 +135,8 @@ public abstract class NumberConverter {
 	};
 	public static final JsonWriter.WriteObject<long[]> LONG_ARRAY_WRITER = (writer, value) -> serialize(value, writer);
 	public static final JsonReader.ReadObject<BigDecimal> DECIMAL_READER = new JsonReader.ReadObject<BigDecimal>() {
-		@Nullable
 		@Override
-		public BigDecimal read(JsonReader reader) throws IOException {
+		public @Nullable BigDecimal read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : deserializeDecimal(reader);
 		}
 	};
@@ -291,7 +281,7 @@ public abstract class NumberConverter {
 		throw reader.newParseErrorWith("Error parsing number", len, "", message, messageArgument, ". Error parsing number");
 	}
 
-	public static void serializeNullable(@Nullable final Double value, final JsonWriter sw) {
+	public static void serializeNullable(final @Nullable Double value, final JsonWriter sw) {
 		if (value == null) {
 			sw.writeNull();
 		} else {
@@ -336,7 +326,7 @@ public abstract class NumberConverter {
 		sw.writeDouble(value);
 	}
 
-	public static void serialize(@Nullable final double[] value, final JsonWriter sw) {
+	public static void serialize(final double @Nullable [] value, final JsonWriter sw) {
 		if (value == null) {
 			sw.writeNull();
 		} else if (value.length == 0) {
@@ -591,7 +581,7 @@ public abstract class NumberConverter {
 		reader.deserializeNullableCollection(DOUBLE_READER, res);
 	}
 
-	public static void serializeNullable(@Nullable final Float value, final JsonWriter sw) {
+	public static void serializeNullable(final @Nullable Float value, final JsonWriter sw) {
 		if (value == null) {
 			sw.writeNull();
 		} else {
@@ -611,7 +601,7 @@ public abstract class NumberConverter {
 		}
 	}
 
-	public static void serialize(@Nullable final float[] value, final JsonWriter sw) {
+	public static void serialize(final float @Nullable [] value, final JsonWriter sw) {
 		if (value == null) {
 			sw.writeNull();
 		} else if (value.length == 0) {
@@ -793,7 +783,7 @@ public abstract class NumberConverter {
 		reader.deserializeNullableCollection(FLOAT_READER, res);
 	}
 
-	public static void serializeNullable(@Nullable final Integer value, final JsonWriter sw) {
+	public static void serializeNullable(final @Nullable Integer value, final JsonWriter sw) {
 		if (value == null) {
 			sw.writeNull();
 		} else {
@@ -856,7 +846,7 @@ public abstract class NumberConverter {
 		return pos + 6;
 	}
 
-	public static void serialize(@Nullable final int[] values, final JsonWriter sw) {
+	public static void serialize(final int @Nullable [] values, final JsonWriter sw) {
 		if (values == null) {
 			sw.writeNull();
 		} else if (values.length == 0) {
@@ -875,7 +865,7 @@ public abstract class NumberConverter {
 		}
 	}
 
-	public static void serialize(@Nullable final short[] value, final JsonWriter sw) {
+	public static void serialize(final short @Nullable [] value, final JsonWriter sw) {
 		if (value == null) {
 			sw.writeNull();
 		} else if (value.length == 0) {
@@ -1105,7 +1095,7 @@ public abstract class NumberConverter {
 		reader.deserializeNullableCollection(INT_READER, res);
 	}
 
-	public static void serializeNullable(@Nullable final Long value, final JsonWriter sw) {
+	public static void serializeNullable(final @Nullable Long value, final JsonWriter sw) {
 		if (value == null) {
 			sw.writeNull();
 		} else {
@@ -1230,7 +1220,7 @@ public abstract class NumberConverter {
 		return pos + 15;
 	}
 
-	public static void serialize(@Nullable final long[] values, final JsonWriter sw) {
+	public static void serialize(final long @Nullable [] values, final JsonWriter sw) {
 		if (values == null) {
 			sw.writeNull();
 		} else if (values.length == 0) {
@@ -1338,7 +1328,7 @@ public abstract class NumberConverter {
 		reader.deserializeNullableCollection(LONG_READER, res);
 	}
 
-	public static void serializeNullable(@Nullable final BigDecimal value, final JsonWriter sw) {
+	public static void serializeNullable(final @Nullable BigDecimal value, final JsonWriter sw) {
 		if (value == null) {
 			sw.writeNull();
 		} else {
@@ -1507,7 +1497,7 @@ public abstract class NumberConverter {
 		return BigDecimal.valueOf(value);
 	}
 
-	public static void serialize(@Nullable final BigInteger value, final JsonWriter sw) {
+	public static void serialize(final @Nullable BigInteger value, final JsonWriter sw) {
 		if (value == null) {
 			sw.writeNull();
 		} else {

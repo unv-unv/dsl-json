@@ -17,7 +17,7 @@ public class _GenericPojo_DslJsonConverter implements Configuration {
 	};
 
 	@Override
-	public void configure(@NonNull DslJson json) {
+	public void configure(DslJson json) {
 		json.registerReaderFactory((manifest, dslJson) -> isOurClass(manifest, dslJson) ? FAKE_READER : null);
 		json.registerWriterFactory((manifest, dslJson) -> isOurClass(manifest, dslJson) ? FAKE_WRITER : null);
 	}

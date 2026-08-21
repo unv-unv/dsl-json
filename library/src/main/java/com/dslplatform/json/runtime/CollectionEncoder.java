@@ -1,5 +1,7 @@
 package com.dslplatform.json.runtime;
 
+import org.jspecify.annotations.Nullable;
+
 import com.dslplatform.json.*;
 
 import java.util.ArrayList;
@@ -12,7 +14,7 @@ public final class CollectionEncoder<E, T extends Collection<E>> implements Json
 
 	public CollectionEncoder(
 			final DslJson json,
-			@Nullable final JsonWriter.WriteObject<E> encoder) {
+			final JsonWriter.@Nullable WriteObject<E> encoder) {
 		if (json == null) throw new IllegalArgumentException("json can't be null");
 		this.json = json;
 		this.encoder = encoder;
@@ -21,7 +23,7 @@ public final class CollectionEncoder<E, T extends Collection<E>> implements Json
 	private static final byte[] EMPTY = {'[', ']'};
 
 	@Override
-	public void write(final JsonWriter writer, @Nullable final T value) {
+	public void write(final JsonWriter writer, final @Nullable T value) {
 		if (value == null) writer.writeNull();
 		else if (value.isEmpty()) writer.writeAscii(EMPTY);
 		else if (encoder != null) {

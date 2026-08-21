@@ -1,4 +1,4 @@
-@NonNullApi
+@NullMarked
 package com.dslplatform.json.processor;
 
-import com.dslplatform.json.NonNullApi;
+import org.jspecify.annotations.NullMarked;

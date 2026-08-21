@@ -1,6 +1,6 @@
 package com.dslplatform.json.processor;
 
-import com.dslplatform.json.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Map;
 

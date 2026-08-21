@@ -1,5 +1,7 @@
 package com.dslplatform.json;
 
+import org.jspecify.annotations.Nullable;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,9 +11,8 @@ public abstract class UUIDConverter {
 
 	public static final UUID MIN_UUID = new java.util.UUID(0L, 0L);
 	public static final JsonReader.ReadObject<UUID> READER = new JsonReader.ReadObject<UUID>() {
-		@Nullable
 		@Override
-		public UUID read(JsonReader reader) throws IOException {
+		public @Nullable UUID read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : deserialize(reader);
 		}
 	};
@@ -44,7 +45,7 @@ public abstract class UUIDConverter {
 		json.registerWriter(UUID.class, WRITER);
 	}
 
-	public static void serializeNullable(@Nullable final UUID value, final JsonWriter sw) {
+	public static void serializeNullable(final @Nullable UUID value, final JsonWriter sw) {
 		if (value == null) {
 			sw.writeNull();
 		} else {

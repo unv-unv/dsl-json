@@ -1,5 +1,7 @@
 package com.dslplatform.json;
 
+import org.jspecify.annotations.Nullable;
+
 import android.graphics.*;
 
 import java.io.ByteArrayOutputStream;
@@ -10,39 +12,35 @@ import java.util.Collection;
 public abstract class AndroidGeomConverter {
 
 	public static final JsonReader.ReadObject<PointF> LOCATION_READER = new JsonReader.ReadObject<PointF>() {
-		@Nullable
 		@Override
-		public PointF read(JsonReader reader) throws IOException {
+		public @Nullable PointF read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : deserializeLocation(reader);
 		}
 	};
 	public static final JsonWriter.WriteObject<PointF> LOCATION_WRITER = (writer, value) -> serializeLocationNullable(value, writer);
 	public static final JsonReader.ReadObject<Point> POINT_READER = new JsonReader.ReadObject<Point>() {
-		@Nullable
 		@Override
-		public Point read(JsonReader reader) throws IOException {
+		public @Nullable Point read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : deserializePoint(reader);
 		}
 	};
 	public static final JsonWriter.WriteObject<Point> POINT_WRITER = (writer, value) -> serializePointNullable(value, writer);
 	public static final JsonReader.ReadObject<Rect> RECTANGLE_READER = new JsonReader.ReadObject<Rect>() {
-		@Nullable
 		@Override
-		public Rect read(JsonReader reader) throws IOException {
+		public @Nullable Rect read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : deserializeRectangle(reader);
 		}
 	};
 	public static final JsonWriter.WriteObject<Rect> RECTANGLE_WRITER = (writer, value) -> serializeRectangleNullable(value, writer);
 	public static final JsonReader.ReadObject<Bitmap> IMAGE_READER = new JsonReader.ReadObject<Bitmap>() {
-		@Nullable
 		@Override
-		public Bitmap read(JsonReader reader) throws IOException {
+		public @Nullable Bitmap read(JsonReader reader) throws IOException {
 			return reader.wasNull() ? null : deserializeImage(reader);
 		}
 	};
 	public static final JsonWriter.WriteObject<Bitmap> IMAGE_WRITER = (writer, value) -> serialize(value, writer);
 
-	public static void serializeLocationNullable(@Nullable final PointF value, final JsonWriter sw) {
+	public static void serializeLocationNullable(final @Nullable PointF value, final JsonWriter sw) {
 		if (value == null) {
 			sw.writeNull();
 		} else {
@@ -107,7 +105,7 @@ public abstract class AndroidGeomConverter {
 		reader.deserializeNullableCollection(LOCATION_READER, res);
 	}
 
-	public static void serializePointNullable(@Nullable final Point value, final JsonWriter sw) {
+	public static void serializePointNullable(final @Nullable Point value, final JsonWriter sw) {
 		if (value == null) {
 			sw.writeNull();
 		} else {
@@ -173,7 +171,7 @@ public abstract class AndroidGeomConverter {
 		reader.deserializeNullableCollection(POINT_READER, res);
 	}
 
-	public static void serializeRectangleNullable(@Nullable final Rect value, final JsonWriter sw) {
+	public static void serializeRectangleNullable(final @Nullable Rect value, final JsonWriter sw) {
 		if (value == null) {
 			sw.writeNull();
 		} else {
@@ -252,7 +250,7 @@ public abstract class AndroidGeomConverter {
 		reader.deserializeNullableCollection(RECTANGLE_READER, res);
 	}
 
-	public static void serialize(@Nullable final Bitmap value, final JsonWriter sw) {
+	public static void serialize(final @Nullable Bitmap value, final JsonWriter sw) {
 		if (value == null) {
 			sw.writeNull();
 		} else {

@@ -1,5 +1,7 @@
 package com.dslplatform.json.processor;
 
+import org.jspecify.annotations.Nullable;
+
 import com.dslplatform.json.*;
 import com.dslplatform.json.runtime.*;
 
@@ -398,7 +400,7 @@ public class CompiledJsonAnnotationProcessor extends AbstractProcessor {
 			final Map<String, StructInfo> structs,
 			final TypeSupport typeSupport,
 			final boolean allowUnknown,
-			@Nullable final String generatedMarker) throws IOException {
+			final @Nullable String generatedMarker) throws IOException {
 		final Context context = new Context(code, environment, InlinedConverters, Defaults, structs, typeSupport, allowUnknown);
 		final EnumTemplate enumTemplate = new EnumTemplate(context);
 		final ConverterTemplate converterTemplate = new ConverterTemplate(context, enumTemplate);

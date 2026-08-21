@@ -1,5 +1,7 @@
 package com.dslplatform.json.runtime;
 
+import org.jspecify.annotations.Nullable;
+
 import com.dslplatform.json.*;
 
 import java.lang.reflect.Type;
@@ -29,7 +31,7 @@ public final class MixinWriter<T> implements JsonWriter.WriteObject<T>, Explicit
 	}
 
 	@Override
-	public void write(final JsonWriter writer, @Nullable final T instance) {
+	public void write(final JsonWriter writer, final @Nullable T instance) {
 		if (instance == null) {
 			writer.writeNull();
 			return;

@@ -1,4 +1,4 @@
-@NonNullApi
+@NullMarked
 package dsl_json.android.graphics;
 
-import com.dslplatform.json.NonNullApi;
+import org.jspecify.annotations.NullMarked;

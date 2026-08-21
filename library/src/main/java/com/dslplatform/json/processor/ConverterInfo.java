@@ -1,6 +1,6 @@
 package com.dslplatform.json.processor;
 
-import com.dslplatform.json.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
@@ -15,7 +15,7 @@ public class ConverterInfo {
 	public final String binder;
 	public final String writer;
 
-	@Nullable final String defaultValue;
+	final @Nullable String defaultValue;
 
 	public final String targetSignature;
 	public final Element targetType;

@@ -1,5 +1,7 @@
 package com.dslplatform.json.runtime;
 
+import org.jspecify.annotations.Nullable;
+
 import com.dslplatform.json.*;
 
 import java.io.IOException;
@@ -44,7 +46,7 @@ public final class MixinDescription<T> implements JsonWriter.WriteObject<T>, Jso
 			final Type manifest,
 			final DslJson json,
 			final FormatDescription<T>[] descriptions,
-			@Nullable final String discriminator) {
+			final @Nullable String discriminator) {
 		if (manifest == null) throw new IllegalArgumentException("manifest can't be null");
 		if (descriptions == null || descriptions.length == 0) {
 			throw new IllegalArgumentException("descriptions can't be null or empty");
@@ -72,8 +74,7 @@ public final class MixinDescription<T> implements JsonWriter.WriteObject<T>, Jso
 		this.discriminatorError = String.format("Expecting \"%s\" attribute as first element of mixin %s", this.discriminator, Reflection.typeDescription(manifest));
 	}
 
-	@Nullable
-	public T read(final JsonReader reader) throws IOException {
+	public @Nullable T read(final JsonReader reader) throws IOException {
 		if (reader.wasNull()) return null;
 		if (reader.last() == '{' && canObjectFormat) {
 			return readObjectFormat(reader);
@@ -89,8 +90,7 @@ public final class MixinDescription<T> implements JsonWriter.WriteObject<T>, Jso
 		}
 	}
 
-	@Nullable
-	private T readObjectFormat(final JsonReader reader) throws IOException {
+	private @Nullable T readObjectFormat(final JsonReader reader) throws IOException {
 		if (reader.getNextToken() != JsonWriter.QUOTE) {
 			throw reader.newParseError(discriminatorError);
 		}
@@ -112,8 +112,7 @@ public final class MixinDescription<T> implements JsonWriter.WriteObject<T>, Jso
 		throw new ConfigurationException("Unable to find decoder for '" + reader.getLastName() + "' for mixin: " + Reflection.typeDescription(manifest) + " which supports object format. Add @CompiledJson to specified type to allow deserialization into it");
 	}
 
-	@Nullable
-	private T readArrayFormat(final JsonReader reader) throws IOException {
+	private @Nullable T readArrayFormat(final JsonReader reader) throws IOException {
 		if (reader.getNextToken() != JsonWriter.QUOTE) {
 			throw reader.newParseError(discriminatorError);
 		}
@@ -135,7 +134,7 @@ public final class MixinDescription<T> implements JsonWriter.WriteObject<T>, Jso
 	}
 
 	@Override
-	public void write(final JsonWriter writer, @Nullable final T instance) {
+	public void write(final JsonWriter writer, final @Nullable T instance) {
 		if (instance == null) {
 			writer.writeNull();
 			return;
