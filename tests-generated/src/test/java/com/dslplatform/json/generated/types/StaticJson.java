@@ -27,7 +27,7 @@ public class StaticJson {
 		private final byte[] buffer = new byte[64];
 
 		public JsonSerialization() {
-			super(new Settings<Object>().withJavaConverters(true).includeServiceLoader());
+			super(new Settings<Object>().includeServiceLoader());
 		}
 
 		private ByteArrayOutputStream stream = new ByteArrayOutputStream();

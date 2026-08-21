@@ -29,6 +29,34 @@ Java JSON library designed for performance. Originally built for invasive softwa
  * JsonB support - high level support for JsonB String and Stream API. Only minimal support for configuration
  * compatible with [DSL Platform](DSL.md)
 
+## Upgrade from v2
+
+v3 splits the single `dsl-json` artifact into a minimal core plus optional modules.
+The core now only requires the `java.base` JDK module, so it no longer drags in
+`java.desktop` (AWT/ImageIO), `java.sql` or `java.xml`.
+
+| artifact | contains | JDK modules |
+| --- | --- | --- |
+| `dsl-json` | core runtime | `java.base` |
+| `dsl-json-processor` | `@CompiledJson` annotation processor | `java.compiler` |
+| `dsl-json-java-geom` | `java.awt` geometry and image converters | `java.desktop` |
+| `dsl-json-xml` | `org.w3c.dom.Element` converters | `java.xml` |
+| `dsl-json-sql` | `java.sql` `ResultSet`/`Date`/`Timestamp` converters | `java.sql` |
+| `dsl-json-jsonb` | JSON-B provider | |
+
+Optional modules register themselves through `META-INF/services/com.dslplatform.json.Configuration`,
+so adding the artifact to the classpath is enough as long as service loading is enabled
+(`new DslJson<>()` and `Settings.basicSetup()` do this, `Settings.withRuntime()` does not).
+
+Breaking changes:
+
+ * the annotation processor is no longer part of `dsl-json`. Reference `dsl-json-processor` as `provided`/`annotationProcessor`/`kapt`
+ * `java.sql` converters (including the `ResultSet` writer, which used to be registered unconditionally) require `dsl-json-sql`
+ * `java.awt` and `org.w3c.dom` converters require `dsl-json-java-geom` / `dsl-json-xml`
+ * `DslJson.Settings.withJavaConverters(boolean)` was removed. Add the optional artifacts instead
+ * `com.dslplatform.json.Nullable`/`NonNull`/`NonNullApi` were removed in favour of [JSpecify](https://jspecify.dev). `@NullMarked` scopes are honoured by the annotation processor
+ * `CompiledJson.namingStrategy()` now defaults to `CompiledJson.DefaultNaming` instead of `NamingStrategy`
+
 ## Upgrade from v1
 
 v1 core library was targeting Java6, while v2 targets Java8.
@@ -67,7 +95,13 @@ To use annotation processor it is sufficient to just reference the library:
     <dependency>
       <groupId>com.dslplatform</groupId>
       <artifactId>dsl-json</artifactId>
-      <version>2.0.2</version>
+      <version>3.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.dslplatform</groupId>
+      <artifactId>dsl-json-processor</artifactId>
+      <version>3.0.0</version>
+      <scope>provided</scope>
     </dependency>
 
 For use in Android, Gradle can be configured with:
@@ -79,9 +113,8 @@ For use in Android, Gradle can be configured with:
       }
     }
     dependencies {
-      compile 'com.dslplatform:dsl-json:2.0.2'
-      annotationProcessor 'com.dslplatform:dsl-json:2.0.2'
-      provided 'javax.json.bind:javax.json.bind-api:1.0'
+      compile 'com.dslplatform:dsl-json:3.0.0'
+      annotationProcessor 'com.dslplatform:dsl-json-processor:3.0.0'
     }
 
 Project examples can be found in [examples folder](examples)
@@ -330,8 +363,8 @@ When used with Gradle, configuration can be done via:
       kotlin("kapt") version "1.8.0"
     }
     dependencies {
-      implementation("com.dslplatform:dsl-json:2.0.2")
-      kapt("com.dslplatform:dsl-json:2.0.2")
+      implementation("com.dslplatform:dsl-json:3.0.0")
+      kapt("com.dslplatform:dsl-json-processor:3.0.0")
     }
 
 ## FAQ

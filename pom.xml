@@ -16,6 +16,9 @@
 				<module>library</module>
 				<module>processor</module>
 				<module>jsonb</module>
+				<module>java-geom</module>
+				<module>xml</module>
+				<module>sql</module>
 				<module>tests-java-latest</module>
 				<module>tests-nullaway</module>
 			</modules>
@@ -29,11 +32,15 @@
 				<module>library</module>
 				<module>processor</module>
 				<module>jsonb</module>
+				<module>java-geom</module>
+				<module>xml</module>
+				<module>sql</module>
 				<module>android</module>
 				<module>tests-processor</module>
 				<module>tests-java8</module>
 				<module>tests-java8-external-models</module>
 				<module>tests-kotlin</module>
+				<module>tests-generated</module>
 			</modules>
 		</profile>
 	</profiles>

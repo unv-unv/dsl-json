@@ -1,5 +1,7 @@
 package com.dslplatform.json;
 
+import com.dslplatform.json.xml.ConfigureJavaXml;
+
 import dsl_json.android.graphics.*;
 
 public class ConfigureAndroid implements Configuration {
@@ -9,6 +11,6 @@ public class ConfigureAndroid implements Configuration {
 		new PointDslJsonConverter().configure(json);
 		new RectDslJsonConverter().configure(json);
 		new BitmapDslJsonConverter().configure(json);
-		XmlConverter.registerDefault(json);
+		new ConfigureJavaXml().configure(json);
 	}
 }

@@ -5,9 +5,7 @@ import org.jspecify.annotations.Nullable;
 import java.io.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.sql.ResultSet;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -121,7 +119,6 @@ public class DslJson<TContext> implements UnknownSerializer, TypeLookup {
 	 */
 	public static class Settings<TContext> {
 		private TContext context;
-		private boolean javaSpecifics;
 		private Fallback<TContext> fallback;
 		private boolean omitDefaults;
 		private boolean allowArrayFormat;
@@ -149,17 +146,6 @@ public class DslJson<TContext> implements UnknownSerializer, TypeLookup {
 		 */
 		public Settings<TContext> withContext(@Nullable TContext context) {
 			this.context = context;
-			return this;
-		}
-
-		/**
-		 * Enable converters for Java specific types (Graphics API) not available on Android.
-		 *
-		 * @param javaSpecifics should register Java specific converters
-		 * @return itself
-		 */
-		public Settings<TContext> withJavaConverters(boolean javaSpecifics) {
-			this.javaSpecifics = javaSpecifics;
 			return this;
 		}
 
@@ -456,7 +442,7 @@ public class DslJson<TContext> implements UnknownSerializer, TypeLookup {
 	 * Fully configurable entry point.
 	 *
 	 * @param context       context instance which can be provided to deserialized objects. Use null if not sure
-	 * @param javaSpecifics register Java graphics specific classes such as java.awt.Point, Image, ...
+	 * @param javaSpecifics ignored. Java specific converters live in the dsl-json-java-geom/xml/sql artifacts
 	 * @param fallback      in case of unsupported type, try serialization/deserialization through external API
 	 * @param omitDefaults  should serialization produce minified JSON (omit nulls and default values)
 	 * @param keyCache      parsed keys can be cached (this is only used in small subset of parsing)
@@ -472,7 +458,6 @@ public class DslJson<TContext> implements UnknownSerializer, TypeLookup {
 			final Iterable<Configuration> serializers) {
 		this(new Settings<TContext>()
 				.withContext(context)
-				.withJavaConverters(javaSpecifics)
 				.fallbackTo(fallback)
 				.skipDefaultValues(omitDefaults)
 				.useKeyCache(keyCache)
@@ -523,17 +508,12 @@ public class DslJson<TContext> implements UnknownSerializer, TypeLookup {
 
 		BinaryConverter.registerDefault(this);
 		BoolConverter.registerDefault(this);
-		if (settings.javaSpecifics) {
-			registerJavaSpecifics(this);
-			XmlConverter.registerDefault(this);
-		}
 		ObjectConverter.registerDefault(this);
 		NetConverter.registerDefault(this);
 		NumberConverter.registerDefault(this);
 		UUIDConverter.registerDefault(this);
 		StringConverter.registerDefault(this);
 		JavaTimeConverter.registerDefault(this);
-		registerWriter(ResultSet.class, new ResultSetConverter(this));
 
 		for (Configuration serializer : settings.configurations) {
 			serializer.configure(this);
@@ -738,11 +718,6 @@ public class DslJson<TContext> implements UnknownSerializer, TypeLookup {
 			} catch (Exception ignore) {
 			}
 		}
-	}
-
-	static void registerJavaSpecifics(final DslJson json) {
-		JavaGeomConverter.registerDefault(json);
-		XmlConverter.registerDefault(json);
 	}
 
 	private final Map<Type, Object> defaults = new ConcurrentHashMap<Type, Object>();

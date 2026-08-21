@@ -9,12 +9,17 @@
 	<description>DSL Platform compatible Java JSON library (https://dsl-platform.com)</description>
 	<url>https://github.com/ngs-doo/dsl-json</url>
 	<packaging>jar</packaging>
-	<version>2.0.3</version>
+	<version>3.0.0</version>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.dslplatform</groupId>
 			<artifactId>dsl-json</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.dslplatform</groupId>
+			<artifactId>dsl-json-xml</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

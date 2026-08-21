@@ -3,8 +3,6 @@ package com.dslplatform.json;
 import org.jspecify.annotations.Nullable;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.time.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -67,18 +65,6 @@ public abstract class JavaTimeConverter {
 			return reader.wasNull() ? null : java.util.Date.from(deserializeDateTime(reader).toInstant());
 		}
 	};
-	private static final JsonReader.ReadObject<java.sql.Date> SQL_DATE_READER = new JsonReader.ReadObject<java.sql.Date>() {
-		@Override
-		public @Nullable Date read(JsonReader reader) throws IOException {
-			return reader.wasNull() ? null : java.sql.Date.valueOf(deserializeLocalDate(reader));
-		}
-	};
-	private static final JsonReader.ReadObject<Timestamp> SQL_TIMESTAMP_READER = new JsonReader.ReadObject<Timestamp>() {
-		@Override
-		public @Nullable Timestamp read(JsonReader reader) throws IOException {
-			return reader.wasNull() ? null : java.sql.Timestamp.from(deserializeDateTime(reader).toInstant());
-		}
-	};
 
 	static <T> void registerDefault(DslJson<T> json) {
 		json.registerReader(LocalDate.class, LOCAL_DATE_READER);
@@ -93,20 +79,9 @@ public abstract class JavaTimeConverter {
 		json.registerWriter(OffsetTime.class, OFFSET_TIME_WRITER);
 		json.registerReader(ZonedDateTime.class, ZONED_DATE_TIME_READER);
 		json.registerWriter(ZonedDateTime.class, ZONED_DATE_TIME_WRITER);
-		json.registerReader(java.sql.Date.class, SQL_DATE_READER);
-		json.registerWriter(java.sql.Date.class, (writer, value) -> {
-			if (value == null) writer.writeNull();
-			else serialize(value.toLocalDate(), writer);
-		});
-		json.registerReader(java.sql.Timestamp.class, SQL_TIMESTAMP_READER);
-		json.registerWriter(java.sql.Timestamp.class, (writer, value) -> {
-			if (value == null) writer.writeNull();
-			else serialize(OffsetDateTime.ofInstant(value.toInstant(), ZoneId.systemDefault()), writer);
-		});
 		json.registerReader(java.util.Date.class, UTIL_DATE_READER);
 		json.registerWriter(java.util.Date.class, (writer, value) -> {
 			if (value == null) writer.writeNull();
-			else if (value instanceof Date) serialize(((Date)value).toLocalDate(), writer);
 			else serialize(OffsetDateTime.ofInstant(value.toInstant(), ZoneId.systemDefault()), writer);
 		});
 	}

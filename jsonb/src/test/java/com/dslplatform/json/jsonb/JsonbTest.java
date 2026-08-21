@@ -1,4 +1,6 @@
-package com.dslplatform.json;
+package com.dslplatform.json.jsonb;
+
+import com.dslplatform.json.*;
 
 import org.junit.Assert;
 import org.junit.Test;

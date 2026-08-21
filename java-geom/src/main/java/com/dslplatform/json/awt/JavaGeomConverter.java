@@ -1,4 +1,6 @@
-package com.dslplatform.json;
+package com.dslplatform.json.awt;
+
+import com.dslplatform.json.*;
 
 import org.jspecify.annotations.Nullable;
 
