@@ -1,5 +1,6 @@
 
 .idea/
+.consulo/
 out/
 *.class
 target/
