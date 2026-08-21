@@ -21,6 +21,8 @@
 				<module>sql</module>
 				<module>tests-java-latest</module>
 				<module>tests-nullaway</module>
+				<module>tests-jpms-api</module>
+				<module>tests-jpms-impl</module>
 			</modules>
 		</profile>
 		<profile>

@@ -95,12 +95,12 @@ To use annotation processor it is sufficient to just reference the library:
     <dependency>
       <groupId>consulo.internal.com.dslplatform</groupId>
       <artifactId>dsl-json</artifactId>
-      <version>3.0.1</version>
+      <version>3.0.2</version>
     </dependency>
     <dependency>
       <groupId>consulo.internal.com.dslplatform</groupId>
       <artifactId>dsl-json-processor</artifactId>
-      <version>3.0.1</version>
+      <version>3.0.2</version>
       <scope>provided</scope>
     </dependency>
 
@@ -113,8 +113,8 @@ For use in Android, Gradle can be configured with:
       }
     }
     dependencies {
-      compile 'consulo.internal.com.dslplatform:dsl-json:3.0.1'
-      annotationProcessor 'consulo.internal.com.dslplatform:dsl-json-processor:3.0.1'
+      compile 'consulo.internal.com.dslplatform:dsl-json:3.0.2'
+      annotationProcessor 'consulo.internal.com.dslplatform:dsl-json-processor:3.0.2'
     }
 
 Project examples can be found in [examples folder](examples)
@@ -363,8 +363,8 @@ When used with Gradle, configuration can be done via:
       kotlin("kapt") version "1.8.0"
     }
     dependencies {
-      implementation("consulo.internal.com.dslplatform:dsl-json:3.0.1")
-      kapt("consulo.internal.com.dslplatform:dsl-json-processor:3.0.1")
+      implementation("consulo.internal.com.dslplatform:dsl-json:3.0.2")
+      kapt("consulo.internal.com.dslplatform:dsl-json-processor:3.0.2")
     }
 
 ## FAQ
