@@ -4,7 +4,7 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.dslplatform</groupId>
+	<groupId>consulo.internal.com.dslplatform</groupId>
 	<artifactId>dsl-json-integration-tests-latest-java</artifactId>
 	<name>DSL-JSON integration tests (Java 21)</name>
 	<description>DSL Platform compatible JSON (https://dsl-platform.com)</description>
@@ -19,13 +19,13 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.dslplatform</groupId>
+			<groupId>consulo.internal.com.dslplatform</groupId>
 			<artifactId>dsl-json-processor</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.dslplatform</groupId>
+			<groupId>consulo.internal.com.dslplatform</groupId>
 			<artifactId>dsl-json</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>

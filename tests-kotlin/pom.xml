@@ -4,7 +4,7 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.dslplatform</groupId>
+	<groupId>consulo.internal.com.dslplatform</groupId>
 	<artifactId>dsl-json-integration-tests-kotlin</artifactId>
 	<name>DSL-JSON integration tests (Kotlin)</name>
 	<description>DSL Platform compatible JSON (https://dsl-platform.com)</description>
@@ -22,12 +22,12 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.dslplatform</groupId>
+			<groupId>consulo.internal.com.dslplatform</groupId>
 			<artifactId>dsl-json</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.dslplatform</groupId>
+			<groupId>consulo.internal.com.dslplatform</groupId>
 			<artifactId>dsl-json-processor</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
@@ -109,7 +109,7 @@
 
 							<annotationProcessorPaths>
 								<annotationProcessorPath>
-									<groupId>com.dslplatform</groupId>
+									<groupId>consulo.internal.com.dslplatform</groupId>
 									<artifactId>dsl-json-processor</artifactId>
 									<version>${project.version}</version>
 								</annotationProcessorPath>

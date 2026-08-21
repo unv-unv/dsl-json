@@ -93,12 +93,12 @@ Array format can be used for efficient payload transfer.
 To use annotation processor it is sufficient to just reference the library:
 
     <dependency>
-      <groupId>com.dslplatform</groupId>
+      <groupId>consulo.internal.com.dslplatform</groupId>
       <artifactId>dsl-json</artifactId>
       <version>3.0.0</version>
     </dependency>
     <dependency>
-      <groupId>com.dslplatform</groupId>
+      <groupId>consulo.internal.com.dslplatform</groupId>
       <artifactId>dsl-json-processor</artifactId>
       <version>3.0.0</version>
       <scope>provided</scope>
@@ -113,8 +113,8 @@ For use in Android, Gradle can be configured with:
       }
     }
     dependencies {
-      compile 'com.dslplatform:dsl-json:3.0.0'
-      annotationProcessor 'com.dslplatform:dsl-json-processor:3.0.0'
+      compile 'consulo.internal.com.dslplatform:dsl-json:3.0.0'
+      annotationProcessor 'consulo.internal.com.dslplatform:dsl-json-processor:3.0.0'
     }
 
 Project examples can be found in [examples folder](examples)
@@ -363,8 +363,8 @@ When used with Gradle, configuration can be done via:
       kotlin("kapt") version "1.8.0"
     }
     dependencies {
-      implementation("com.dslplatform:dsl-json:3.0.0")
-      kapt("com.dslplatform:dsl-json-processor:3.0.0")
+      implementation("consulo.internal.com.dslplatform:dsl-json:3.0.0")
+      kapt("consulo.internal.com.dslplatform:dsl-json-processor:3.0.0")
     }
 
 ## FAQ

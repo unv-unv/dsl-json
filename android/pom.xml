@@ -3,7 +3,7 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.dslplatform</groupId>
+	<groupId>consulo.internal.com.dslplatform</groupId>
 	<artifactId>dsl-json-android</artifactId>
 	<name>DSL Platform JSON (Android API)</name>
 	<description>DSL Platform compatible Java JSON library (https://dsl-platform.com)</description>
@@ -13,12 +13,12 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.dslplatform</groupId>
+			<groupId>consulo.internal.com.dslplatform</groupId>
 			<artifactId>dsl-json</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.dslplatform</groupId>
+			<groupId>consulo.internal.com.dslplatform</groupId>
 			<artifactId>dsl-json-xml</artifactId>
 			<version>${project.version}</version>
 		</dependency>
