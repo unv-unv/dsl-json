@@ -15,7 +15,7 @@ import java.lang.annotation.*;
  * This can be used to create converters for objects which can't be modified.
  */
 @Target({ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.METHOD})
-@Retention(RetentionPolicy.CLASS)
+@Retention(RetentionPolicy.RUNTIME)
 public @interface CompiledJson {
 	/**
 	 * JSON can be encoded/decoded in several ways:<br>
