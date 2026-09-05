@@ -338,7 +338,13 @@ public class CompiledJsonAnnotationProcessor extends AbstractProcessor {
 			final List<String> allConfigurations = new ArrayList<>(configurations.keySet());
 			String rootConfigurationName = configurationFileName;
 			if (rootConfigurationName == null && !generatedFiles.isEmpty()) {
-				rootConfigurationName = deriveConfigurationName(generatedFiles.keySet());
+				Set<String> ownConverters = new LinkedHashSet<>();
+				for (Map.Entry<String, StructInfo> entry : generatedFiles.entrySet()) {
+					if (roundEnv.getRootElements().contains(entry.getValue().element)) {
+						ownConverters.add(entry.getKey());
+					}
+				}
+				rootConfigurationName = deriveConfigurationName(ownConverters.isEmpty() ? generatedFiles.keySet() : ownConverters);
 			}
 			if (rootConfigurationName != null && !rootConfigurationName.isEmpty()) {
 				final String configurationName = rootConfigurationName;
