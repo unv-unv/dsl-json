@@ -336,21 +336,26 @@ public class CompiledJsonAnnotationProcessor extends AbstractProcessor {
 			}
 
 			final List<String> allConfigurations = new ArrayList<>(configurations.keySet());
-			if (configurationFileName != null) {
+			String rootConfigurationName = configurationFileName;
+			if (rootConfigurationName == null && !generatedFiles.isEmpty()) {
+				rootConfigurationName = deriveConfigurationName(generatedFiles.keySet());
+			}
+			if (rootConfigurationName != null && !rootConfigurationName.isEmpty()) {
+				final String configurationName = rootConfigurationName;
 				try {
 					FileObject configFile = processingEnv.getFiler()
-							.createSourceFile(configurationFileName, originatingElements.toArray(new Element[0]));
+							.createSourceFile(configurationName, originatingElements.toArray(new Element[0]));
 					try (Writer writer = configFile.openWriter()) {
-						if (!buildRootConfiguration(writer, configurationFileName, generatedFiles, processingEnv))
+						if (!buildRootConfiguration(writer, configurationName, generatedFiles, processingEnv))
 							return false;
-						allConfigurations.add(configurationFileName);
+						allConfigurations.add(configurationName);
 					} catch (Exception e) {
 						processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR,
-								"Failed saving configuration file " + configurationFileName);
+								"Failed saving configuration file " + configurationName);
 					}
 				} catch (IOException e) {
 					processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR,
-							"Failed creating configuration file " + configurationFileName);
+							"Failed creating configuration file " + configurationName);
 				}
 			}
 			if (!allConfigurations.isEmpty()) {
@@ -386,6 +391,35 @@ public class CompiledJsonAnnotationProcessor extends AbstractProcessor {
 			return latest;
 		}
 		return SourceVersion.RELEASE_8;
+	}
+
+	private static String deriveConfigurationName(Set<String> converterNames) {
+		String common = null;
+		for (String converterName : converterNames) {
+			int dotIndex = converterName.lastIndexOf('.');
+			String packageName = dotIndex == -1 ? "" : converterName.substring(0, dotIndex);
+			if (common == null) {
+				common = packageName;
+			} else {
+				common = commonPackagePrefix(common, packageName);
+			}
+		}
+		if (common == null || common.isEmpty()) {
+			return null;
+		}
+		return common + ".DslJsonConfiguration";
+	}
+
+	private static String commonPackagePrefix(String left, String right) {
+		String[] leftParts = left.split("\\.");
+		String[] rightParts = right.split("\\.");
+		StringBuilder result = new StringBuilder();
+		for (int i = 0; i < Math.min(leftParts.length, rightParts.length); i++) {
+			if (!leftParts[i].equals(rightParts[i])) break;
+			if (result.length() > 0) result.append('.');
+			result.append(leftParts[i]);
+		}
+		return result.toString();
 	}
 
 	static String findConverterName(StructInfo structInfo) {
