@@ -164,6 +164,22 @@ public class Analysis {
 		findRelatedReferences();
 		findImplementations(structs.values());
 		for (StructInfo si : structs.values()) {
+			Iterator<Map.Entry<String, TypeMirror>> iterator = si.unknowns.entrySet().iterator();
+			while (iterator.hasNext()) {
+				Map.Entry<String, TypeMirror> kv = iterator.next();
+				boolean resolved = true;
+				for (PartKind kind : analyzeParts(kv.getValue()).values()) {
+					if (kind != PartKind.OTHER) {
+						resolved = false;
+						break;
+					}
+				}
+				if (resolved) {
+					iterator.remove();
+				}
+			}
+		}
+		for (StructInfo si : structs.values()) {
 			if (si.hasAnnotation() && si.type != ObjectType.CONVERTER && !requiresPublic(si.element) && !si.element.getModifiers().contains(Modifier.PUBLIC)) {
 				String siName = si.binaryName.substring(0, si.binaryName.length() - si.element.getSimpleName().length());
 				for(StructInfo parent : structs.values()) {
